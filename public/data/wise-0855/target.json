@@ -1,0 +1,23 @@
+{
+  "id": "wise-0855",
+  "name": "WISE 0855-0714",
+  "designation": "WISE J085510.83-071442.5",
+  "ra_deg": 133.7951,
+  "dec_deg": -7.2451,
+  "ra_hms": "08h 55m 10.83s",
+  "dec_dms": "-07\u00b0 14' 42.5\"",
+  "type": "Sub-stellar Y4 Brown Dwarf (T ~ 250 K)",
+  "distance_pc": 2.23,
+  "pm_ra_mas_yr": -8132.0,
+  "pm_dec_mas_yr": 675.0,
+  "behavior": "Extreme Proper Motion + Infrared-Only (Planet X Analog)",
+  "description": "The coldest known sub-stellar object outside the Solar System (temperature below the freezing point of water, ~250 K). WISE 0855 moves at an astonishing 8.16 arcsec/yr. Because it emits essentially zero visible light, it is completely absent in Gaia DR3 (G > 23) but blazes in SPHEREx Band 5 & 6 (3.8\u20135.0 \u03bcm), representing the premier astrophysical analog for hypothetical outer Solar System bodies (Planet X).",
+  "expected_findings": [
+    "Blistering proper motion (~8.16\"/yr) creating prominent dipole residuals in difference maps.",
+    "100% Infrared-Only: ZERO detection in Gaia DR3 optical, triggering the 'Infrared-Only Mover' detector flag.",
+    "SED flux virtually zero below 2.5 \u03bcm, with massive flux surge between 4.0 and 5.0 \u03bcm."
+  ],
+  "is_infrared_only": true,
+  "variability_type": "None (Cloud deck stability)",
+  "sed_profile": "y_dwarf"
+}

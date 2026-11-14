@@ -1,0 +1,62 @@
+[
+  {
+    "id": "barnards-star",
+    "name": "Barnard's Star",
+    "ra_deg": 269.4521,
+    "dec_deg": 4.6934,
+    "ra_hms": "17h 57m 48.50s",
+    "dec_dms": "+04\u00b0 41' 36.2\"",
+    "type": "High-Proper-Motion Red Dwarf (M4V)",
+    "behavior": "High Proper Motion",
+    "is_infrared_only": false,
+    "variability_type": "None (Photometrically stable)"
+  },
+  {
+    "id": "epsilon-indi-b",
+    "name": "Epsilon Indi B",
+    "ra_deg": 331.0438,
+    "dec_deg": -56.7827,
+    "ra_hms": "22h 04m 10.52s",
+    "dec_dms": "-56\u00b0 46' 57.7\"",
+    "type": "T1 + T6 Binary Brown Dwarf System",
+    "behavior": "High Proper Motion + Methane Absorption",
+    "is_infrared_only": false,
+    "variability_type": "Low (Rotational modulation < 3%)"
+  },
+  {
+    "id": "wise-0855",
+    "name": "WISE 0855-0714",
+    "ra_deg": 133.7951,
+    "dec_deg": -7.2451,
+    "ra_hms": "08h 55m 10.83s",
+    "dec_dms": "-07\u00b0 14' 42.5\"",
+    "type": "Sub-stellar Y4 Brown Dwarf (T ~ 250 K)",
+    "behavior": "Extreme Proper Motion + Infrared-Only (Planet X Analog)",
+    "is_infrared_only": true,
+    "variability_type": "None (Cloud deck stability)"
+  },
+  {
+    "id": "rw-aurigae",
+    "name": "RW Aurigae",
+    "ra_deg": 76.9564,
+    "dec_deg": 30.4014,
+    "ra_hms": "05h 07m 49.54s",
+    "dec_dms": "+30\u00b0 24' 05.1\"",
+    "type": "Classical T Tauri Young Variable Star",
+    "behavior": "Severe Photometric Dimming (Stationary)",
+    "is_infrared_only": false,
+    "variability_type": "T Tauri Accretion & Dust Occultation (Variable)"
+  },
+  {
+    "id": "r-draconis",
+    "name": "R Draconis",
+    "ra_deg": 248.1676,
+    "dec_deg": 66.755,
+    "ra_hms": "16h 32m 40.23s",
+    "dec_dms": "+66\u00b0 45' 17.9\"",
+    "type": "Mira-type Long-Period Variable Pulsator",
+    "behavior": "Periodic Infrared Flux Pulsation (Stationary)",
+    "is_infrared_only": false,
+    "variability_type": "Mira Pulsator (Period: 245.5 days)"
+  }
+]

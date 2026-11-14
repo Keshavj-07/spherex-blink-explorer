@@ -1,0 +1,24 @@
+{
+  "id": "rw-aurigae",
+  "name": "RW Aurigae",
+  "designation": "RW Aur / HD 33904",
+  "ra_deg": 76.9564,
+  "dec_deg": 30.4014,
+  "ra_hms": "05h 07m 49.54s",
+  "dec_dms": "+30\u00b0 24' 05.1\"",
+  "type": "Classical T Tauri Young Variable Star",
+  "distance_pc": 160.0,
+  "pm_ra_mas_yr": 1.4,
+  "pm_dec_mas_yr": -19.2,
+  "behavior": "Severe Photometric Dimming (Stationary)",
+  "description": "A famous young binary star system surrounded by active accretion disks and tidal gas/dust bridges. Known for sudden, deep occultation dimmings (drops of 2-3 magnitudes) lasting months to years as circumstellar dust streams pass through our line of sight. Stationary on the sky, RW Aurigae showcases how difference imaging cleanly separates variable flux from proper motion.",
+  "expected_findings": [
+    "Fixed spatial position (negligible proper motion across 1-year baseline).",
+    "Monopolar residual in Difference Imaging Mode (deep negative residual core without any dipole shift).",
+    "Multi-epoch light curve shows 50-60% flux reduction between Epoch 1 and Epoch 2.",
+    "Broad infrared excess spanning 2-5 \u03bcm from warm circumstellar dust."
+  ],
+  "is_infrared_only": false,
+  "variability_type": "T Tauri Accretion & Dust Occultation (Variable)",
+  "sed_profile": "t_tauri"
+}

@@ -1,0 +1,968 @@
+[
+  {
+    "channel": 0,
+    "band": 1,
+    "wavelength_um": 0.75,
+    "molecules": [],
+    "flux_ujy": 1.6,
+    "flux_err_ujy": 0.53,
+    "snr": 3.0
+  },
+  {
+    "channel": 1,
+    "band": 1,
+    "wavelength_um": 0.7686,
+    "molecules": [],
+    "flux_ujy": 2.29,
+    "flux_err_ujy": 0.55,
+    "snr": 4.2
+  },
+  {
+    "channel": 2,
+    "band": 1,
+    "wavelength_um": 0.7877,
+    "molecules": [],
+    "flux_ujy": 3.39,
+    "flux_err_ujy": 0.57,
+    "snr": 5.9
+  },
+  {
+    "channel": 3,
+    "band": 1,
+    "wavelength_um": 0.8072,
+    "molecules": [],
+    "flux_ujy": 4.52,
+    "flux_err_ujy": 0.59,
+    "snr": 7.7
+  },
+  {
+    "channel": 4,
+    "band": 1,
+    "wavelength_um": 0.8272,
+    "molecules": [],
+    "flux_ujy": 6.25,
+    "flux_err_ujy": 0.62,
+    "snr": 10.1
+  },
+  {
+    "channel": 5,
+    "band": 1,
+    "wavelength_um": 0.8478,
+    "molecules": [
+      "TiO"
+    ],
+    "flux_ujy": 8.98,
+    "flux_err_ujy": 0.68,
+    "snr": 13.2
+  },
+  {
+    "channel": 6,
+    "band": 1,
+    "wavelength_um": 0.8688,
+    "molecules": [],
+    "flux_ujy": 12.32,
+    "flux_err_ujy": 0.75,
+    "snr": 16.4
+  },
+  {
+    "channel": 7,
+    "band": 1,
+    "wavelength_um": 0.8903,
+    "molecules": [
+      "TiO"
+    ],
+    "flux_ujy": 16.35,
+    "flux_err_ujy": 0.83,
+    "snr": 19.7
+  },
+  {
+    "channel": 8,
+    "band": 1,
+    "wavelength_um": 0.9124,
+    "molecules": [],
+    "flux_ujy": 21.76,
+    "flux_err_ujy": 0.94,
+    "snr": 23.1
+  },
+  {
+    "channel": 9,
+    "band": 1,
+    "wavelength_um": 0.935,
+    "molecules": [],
+    "flux_ujy": 28.88,
+    "flux_err_ujy": 1.08,
+    "snr": 26.7
+  },
+  {
+    "channel": 10,
+    "band": 1,
+    "wavelength_um": 0.9582,
+    "molecules": [],
+    "flux_ujy": 37.74,
+    "flux_err_ujy": 1.25,
+    "snr": 30.2
+  },
+  {
+    "channel": 11,
+    "band": 1,
+    "wavelength_um": 0.982,
+    "molecules": [],
+    "flux_ujy": 49.47,
+    "flux_err_ujy": 1.49,
+    "snr": 33.2
+  },
+  {
+    "channel": 12,
+    "band": 1,
+    "wavelength_um": 1.0064,
+    "molecules": [],
+    "flux_ujy": 198.13,
+    "flux_err_ujy": 4.46,
+    "snr": 44.4
+  },
+  {
+    "channel": 13,
+    "band": 1,
+    "wavelength_um": 1.0313,
+    "molecules": [],
+    "flux_ujy": 251.15,
+    "flux_err_ujy": 5.52,
+    "snr": 45.5
+  },
+  {
+    "channel": 14,
+    "band": 1,
+    "wavelength_um": 1.0569,
+    "molecules": [],
+    "flux_ujy": 323.77,
+    "flux_err_ujy": 6.98,
+    "snr": 46.4
+  },
+  {
+    "channel": 15,
+    "band": 1,
+    "wavelength_um": 1.0831,
+    "molecules": [],
+    "flux_ujy": 398.48,
+    "flux_err_ujy": 8.47,
+    "snr": 47.0
+  },
+  {
+    "channel": 16,
+    "band": 1,
+    "wavelength_um": 1.11,
+    "molecules": [],
+    "flux_ujy": 492.62,
+    "flux_err_ujy": 10.35,
+    "snr": 47.6
+  },
+  {
+    "channel": 17,
+    "band": 2,
+    "wavelength_um": 1.11,
+    "molecules": [],
+    "flux_ujy": 504.13,
+    "flux_err_ujy": 10.58,
+    "snr": 47.6
+  },
+  {
+    "channel": 18,
+    "band": 2,
+    "wavelength_um": 1.1374,
+    "molecules": [],
+    "flux_ujy": 609.37,
+    "flux_err_ujy": 12.69,
+    "snr": 48.0
+  },
+  {
+    "channel": 19,
+    "band": 2,
+    "wavelength_um": 1.1655,
+    "molecules": [],
+    "flux_ujy": 752.72,
+    "flux_err_ujy": 15.55,
+    "snr": 48.4
+  },
+  {
+    "channel": 20,
+    "band": 2,
+    "wavelength_um": 1.1943,
+    "molecules": [],
+    "flux_ujy": 895.83,
+    "flux_err_ujy": 18.42,
+    "snr": 48.6
+  },
+  {
+    "channel": 21,
+    "band": 2,
+    "wavelength_um": 1.2238,
+    "molecules": [],
+    "flux_ujy": 4371.33,
+    "flux_err_ujy": 87.93,
+    "snr": 49.7
+  },
+  {
+    "channel": 22,
+    "band": 2,
+    "wavelength_um": 1.254,
+    "molecules": [],
+    "flux_ujy": 5214.07,
+    "flux_err_ujy": 104.78,
+    "snr": 49.8
+  },
+  {
+    "channel": 23,
+    "band": 2,
+    "wavelength_um": 1.285,
+    "molecules": [],
+    "flux_ujy": 6071.93,
+    "flux_err_ujy": 121.94,
+    "snr": 49.8
+  },
+  {
+    "channel": 24,
+    "band": 2,
+    "wavelength_um": 1.3167,
+    "molecules": [],
+    "flux_ujy": 7118.57,
+    "flux_err_ujy": 142.87,
+    "snr": 49.8
+  },
+  {
+    "channel": 25,
+    "band": 2,
+    "wavelength_um": 1.3492,
+    "molecules": [],
+    "flux_ujy": 8411.46,
+    "flux_err_ujy": 168.73,
+    "snr": 49.9
+  },
+  {
+    "channel": 26,
+    "band": 2,
+    "wavelength_um": 1.3825,
+    "molecules": [
+      "H2O"
+    ],
+    "flux_ujy": 3256.69,
+    "flux_err_ujy": 65.63,
+    "snr": 49.6
+  },
+  {
+    "channel": 27,
+    "band": 2,
+    "wavelength_um": 1.4167,
+    "molecules": [
+      "H2O"
+    ],
+    "flux_ujy": 3881.3,
+    "flux_err_ujy": 78.13,
+    "snr": 49.7
+  },
+  {
+    "channel": 28,
+    "band": 2,
+    "wavelength_um": 1.4517,
+    "molecules": [],
+    "flux_ujy": 13064.38,
+    "flux_err_ujy": 261.79,
+    "snr": 49.9
+  },
+  {
+    "channel": 29,
+    "band": 2,
+    "wavelength_um": 1.4875,
+    "molecules": [],
+    "flux_ujy": 14584.44,
+    "flux_err_ujy": 292.19,
+    "snr": 49.9
+  },
+  {
+    "channel": 30,
+    "band": 2,
+    "wavelength_um": 1.5243,
+    "molecules": [],
+    "flux_ujy": 16256.77,
+    "flux_err_ujy": 325.64,
+    "snr": 49.9
+  },
+  {
+    "channel": 31,
+    "band": 2,
+    "wavelength_um": 1.5619,
+    "molecules": [],
+    "flux_ujy": 18663.45,
+    "flux_err_ujy": 373.77,
+    "snr": 49.9
+  },
+  {
+    "channel": 32,
+    "band": 2,
+    "wavelength_um": 1.6005,
+    "molecules": [],
+    "flux_ujy": 20058.98,
+    "flux_err_ujy": 401.68,
+    "snr": 49.9
+  },
+  {
+    "channel": 33,
+    "band": 2,
+    "wavelength_um": 1.64,
+    "molecules": [
+      "CH4"
+    ],
+    "flux_ujy": 7490.35,
+    "flux_err_ujy": 150.31,
+    "snr": 49.8
+  },
+  {
+    "channel": 34,
+    "band": 3,
+    "wavelength_um": 1.64,
+    "molecules": [
+      "CH4"
+    ],
+    "flux_ujy": 7449.5,
+    "flux_err_ujy": 149.49,
+    "snr": 49.8
+  },
+  {
+    "channel": 35,
+    "band": 3,
+    "wavelength_um": 1.6804,
+    "molecules": [
+      "CH4"
+    ],
+    "flux_ujy": 8137.47,
+    "flux_err_ujy": 163.25,
+    "snr": 49.8
+  },
+  {
+    "channel": 36,
+    "band": 3,
+    "wavelength_um": 1.7217,
+    "molecules": [],
+    "flux_ujy": 9039.96,
+    "flux_err_ujy": 181.3,
+    "snr": 49.9
+  },
+  {
+    "channel": 37,
+    "band": 3,
+    "wavelength_um": 1.7641,
+    "molecules": [],
+    "flux_ujy": 30260.87,
+    "flux_err_ujy": 605.72,
+    "snr": 50.0
+  },
+  {
+    "channel": 38,
+    "band": 3,
+    "wavelength_um": 1.8075,
+    "molecules": [],
+    "flux_ujy": 32729.7,
+    "flux_err_ujy": 655.09,
+    "snr": 50.0
+  },
+  {
+    "channel": 39,
+    "band": 3,
+    "wavelength_um": 1.852,
+    "molecules": [
+      "H2O"
+    ],
+    "flux_ujy": 10897.07,
+    "flux_err_ujy": 218.44,
+    "snr": 49.9
+  },
+  {
+    "channel": 40,
+    "band": 3,
+    "wavelength_um": 1.8976,
+    "molecules": [
+      "H2O"
+    ],
+    "flux_ujy": 11694.52,
+    "flux_err_ujy": 234.39,
+    "snr": 49.9
+  },
+  {
+    "channel": 41,
+    "band": 3,
+    "wavelength_um": 1.9443,
+    "molecules": [
+      "H2O"
+    ],
+    "flux_ujy": 12632.0,
+    "flux_err_ujy": 253.14,
+    "snr": 49.9
+  },
+  {
+    "channel": 42,
+    "band": 3,
+    "wavelength_um": 1.9922,
+    "molecules": [],
+    "flux_ujy": 45557.27,
+    "flux_err_ujy": 911.65,
+    "snr": 50.0
+  },
+  {
+    "channel": 43,
+    "band": 3,
+    "wavelength_um": 2.0412,
+    "molecules": [],
+    "flux_ujy": 46079.35,
+    "flux_err_ujy": 922.09,
+    "snr": 50.0
+  },
+  {
+    "channel": 44,
+    "band": 3,
+    "wavelength_um": 2.0915,
+    "molecules": [],
+    "flux_ujy": 49537.92,
+    "flux_err_ujy": 991.26,
+    "snr": 50.0
+  },
+  {
+    "channel": 45,
+    "band": 3,
+    "wavelength_um": 2.1429,
+    "molecules": [],
+    "flux_ujy": 52978.22,
+    "flux_err_ujy": 1060.06,
+    "snr": 50.0
+  },
+  {
+    "channel": 46,
+    "band": 3,
+    "wavelength_um": 2.1957,
+    "molecules": [
+      "CH4"
+    ],
+    "flux_ujy": 15602.5,
+    "flux_err_ujy": 312.55,
+    "snr": 49.9
+  },
+  {
+    "channel": 47,
+    "band": 3,
+    "wavelength_um": 2.2497,
+    "molecules": [
+      "CH4"
+    ],
+    "flux_ujy": 16163.57,
+    "flux_err_ujy": 323.77,
+    "snr": 49.9
+  },
+  {
+    "channel": 48,
+    "band": 3,
+    "wavelength_um": 2.3051,
+    "molecules": [
+      "CH4"
+    ],
+    "flux_ujy": 16826.88,
+    "flux_err_ujy": 337.04,
+    "snr": 49.9
+  },
+  {
+    "channel": 49,
+    "band": 3,
+    "wavelength_um": 2.3619,
+    "molecules": [],
+    "flux_ujy": 18150.01,
+    "flux_err_ujy": 363.5,
+    "snr": 49.9
+  },
+  {
+    "channel": 50,
+    "band": 3,
+    "wavelength_um": 2.42,
+    "molecules": [],
+    "flux_ujy": 64728.06,
+    "flux_err_ujy": 1295.06,
+    "snr": 50.0
+  },
+  {
+    "channel": 51,
+    "band": 4,
+    "wavelength_um": 2.42,
+    "molecules": [],
+    "flux_ujy": 64276.08,
+    "flux_err_ujy": 1286.02,
+    "snr": 50.0
+  },
+  {
+    "channel": 52,
+    "band": 4,
+    "wavelength_um": 2.49,
+    "molecules": [],
+    "flux_ujy": 66075.54,
+    "flux_err_ujy": 1322.01,
+    "snr": 50.0
+  },
+  {
+    "channel": 53,
+    "band": 4,
+    "wavelength_um": 2.5621,
+    "molecules": [],
+    "flux_ujy": 67628.7,
+    "flux_err_ujy": 1353.07,
+    "snr": 50.0
+  },
+  {
+    "channel": 54,
+    "band": 4,
+    "wavelength_um": 2.6363,
+    "molecules": [],
+    "flux_ujy": 70874.05,
+    "flux_err_ujy": 1417.98,
+    "snr": 50.0
+  },
+  {
+    "channel": 55,
+    "band": 4,
+    "wavelength_um": 2.7125,
+    "molecules": [
+      "H2O"
+    ],
+    "flux_ujy": 72289.86,
+    "flux_err_ujy": 1446.3,
+    "snr": 50.0
+  },
+  {
+    "channel": 56,
+    "band": 4,
+    "wavelength_um": 2.7911,
+    "molecules": [],
+    "flux_ujy": 71709.04,
+    "flux_err_ujy": 1434.68,
+    "snr": 50.0
+  },
+  {
+    "channel": 57,
+    "band": 4,
+    "wavelength_um": 2.8718,
+    "molecules": [],
+    "flux_ujy": 73584.72,
+    "flux_err_ujy": 1472.19,
+    "snr": 50.0
+  },
+  {
+    "channel": 58,
+    "band": 4,
+    "wavelength_um": 2.9549,
+    "molecules": [],
+    "flux_ujy": 75332.34,
+    "flux_err_ujy": 1507.15,
+    "snr": 50.0
+  },
+  {
+    "channel": 59,
+    "band": 4,
+    "wavelength_um": 3.0405,
+    "molecules": [],
+    "flux_ujy": 72508.93,
+    "flux_err_ujy": 1450.68,
+    "snr": 50.0
+  },
+  {
+    "channel": 60,
+    "band": 4,
+    "wavelength_um": 3.1285,
+    "molecules": [],
+    "flux_ujy": 73590.27,
+    "flux_err_ujy": 1472.31,
+    "snr": 50.0
+  },
+  {
+    "channel": 61,
+    "band": 4,
+    "wavelength_um": 3.219,
+    "molecules": [],
+    "flux_ujy": 16029.04,
+    "flux_err_ujy": 321.08,
+    "snr": 49.9
+  },
+  {
+    "channel": 62,
+    "band": 4,
+    "wavelength_um": 3.3122,
+    "molecules": [
+      "CH4"
+    ],
+    "flux_ujy": 16339.57,
+    "flux_err_ujy": 327.29,
+    "snr": 49.9
+  },
+  {
+    "channel": 63,
+    "band": 4,
+    "wavelength_um": 3.408,
+    "molecules": [
+      "CH4"
+    ],
+    "flux_ujy": 15555.31,
+    "flux_err_ujy": 311.61,
+    "snr": 49.9
+  },
+  {
+    "channel": 64,
+    "band": 4,
+    "wavelength_um": 3.5066,
+    "molecules": [],
+    "flux_ujy": 15587.59,
+    "flux_err_ujy": 312.25,
+    "snr": 49.9
+  },
+  {
+    "channel": 65,
+    "band": 4,
+    "wavelength_um": 3.6081,
+    "molecules": [],
+    "flux_ujy": 70231.47,
+    "flux_err_ujy": 1405.13,
+    "snr": 50.0
+  },
+  {
+    "channel": 66,
+    "band": 4,
+    "wavelength_um": 3.7126,
+    "molecules": [],
+    "flux_ujy": 69371.75,
+    "flux_err_ujy": 1387.93,
+    "snr": 50.0
+  },
+  {
+    "channel": 67,
+    "band": 4,
+    "wavelength_um": 3.82,
+    "molecules": [],
+    "flux_ujy": 67168.62,
+    "flux_err_ujy": 1343.87,
+    "snr": 50.0
+  },
+  {
+    "channel": 68,
+    "band": 5,
+    "wavelength_um": 3.82,
+    "molecules": [],
+    "flux_ujy": 67374.57,
+    "flux_err_ujy": 1347.99,
+    "snr": 50.0
+  },
+  {
+    "channel": 69,
+    "band": 5,
+    "wavelength_um": 3.855,
+    "molecules": [],
+    "flux_ujy": 65601.05,
+    "flux_err_ujy": 1312.52,
+    "snr": 50.0
+  },
+  {
+    "channel": 70,
+    "band": 5,
+    "wavelength_um": 3.8903,
+    "molecules": [],
+    "flux_ujy": 65111.33,
+    "flux_err_ujy": 1302.73,
+    "snr": 50.0
+  },
+  {
+    "channel": 71,
+    "band": 5,
+    "wavelength_um": 3.9259,
+    "molecules": [],
+    "flux_ujy": 64960.51,
+    "flux_err_ujy": 1299.71,
+    "snr": 50.0
+  },
+  {
+    "channel": 72,
+    "band": 5,
+    "wavelength_um": 3.9619,
+    "molecules": [],
+    "flux_ujy": 63069.79,
+    "flux_err_ujy": 1261.9,
+    "snr": 50.0
+  },
+  {
+    "channel": 73,
+    "band": 5,
+    "wavelength_um": 3.9982,
+    "molecules": [],
+    "flux_ujy": 63910.75,
+    "flux_err_ujy": 1278.71,
+    "snr": 50.0
+  },
+  {
+    "channel": 74,
+    "band": 5,
+    "wavelength_um": 4.0348,
+    "molecules": [],
+    "flux_ujy": 62333.17,
+    "flux_err_ujy": 1247.16,
+    "snr": 50.0
+  },
+  {
+    "channel": 75,
+    "band": 5,
+    "wavelength_um": 4.0718,
+    "molecules": [],
+    "flux_ujy": 61598.12,
+    "flux_err_ujy": 1232.46,
+    "snr": 50.0
+  },
+  {
+    "channel": 76,
+    "band": 5,
+    "wavelength_um": 4.1091,
+    "molecules": [],
+    "flux_ujy": 62535.85,
+    "flux_err_ujy": 1251.22,
+    "snr": 50.0
+  },
+  {
+    "channel": 77,
+    "band": 5,
+    "wavelength_um": 4.1467,
+    "molecules": [],
+    "flux_ujy": 61244.17,
+    "flux_err_ujy": 1225.38,
+    "snr": 50.0
+  },
+  {
+    "channel": 78,
+    "band": 5,
+    "wavelength_um": 4.1847,
+    "molecules": [],
+    "flux_ujy": 59398.25,
+    "flux_err_ujy": 1188.46,
+    "snr": 50.0
+  },
+  {
+    "channel": 79,
+    "band": 5,
+    "wavelength_um": 4.223,
+    "molecules": [
+      "CO2"
+    ],
+    "flux_ujy": 60380.14,
+    "flux_err_ujy": 1208.1,
+    "snr": 50.0
+  },
+  {
+    "channel": 80,
+    "band": 5,
+    "wavelength_um": 4.2617,
+    "molecules": [
+      "CO2"
+    ],
+    "flux_ujy": 59251.24,
+    "flux_err_ujy": 1185.52,
+    "snr": 50.0
+  },
+  {
+    "channel": 81,
+    "band": 5,
+    "wavelength_um": 4.3007,
+    "molecules": [
+      "CO2"
+    ],
+    "flux_ujy": 58690.15,
+    "flux_err_ujy": 1174.3,
+    "snr": 50.0
+  },
+  {
+    "channel": 82,
+    "band": 5,
+    "wavelength_um": 4.3401,
+    "molecules": [
+      "CO2"
+    ],
+    "flux_ujy": 56215.09,
+    "flux_err_ujy": 1124.8,
+    "snr": 50.0
+  },
+  {
+    "channel": 83,
+    "band": 5,
+    "wavelength_um": 4.3799,
+    "molecules": [],
+    "flux_ujy": 56767.72,
+    "flux_err_ujy": 1135.85,
+    "snr": 50.0
+  },
+  {
+    "channel": 84,
+    "band": 5,
+    "wavelength_um": 4.42,
+    "molecules": [],
+    "flux_ujy": 54341.75,
+    "flux_err_ujy": 1087.34,
+    "snr": 50.0
+  },
+  {
+    "channel": 85,
+    "band": 6,
+    "wavelength_um": 4.42,
+    "molecules": [],
+    "flux_ujy": 56283.06,
+    "flux_err_ujy": 1126.16,
+    "snr": 50.0
+  },
+  {
+    "channel": 86,
+    "band": 6,
+    "wavelength_um": 4.4542,
+    "molecules": [],
+    "flux_ujy": 54206.93,
+    "flux_err_ujy": 1084.64,
+    "snr": 50.0
+  },
+  {
+    "channel": 87,
+    "band": 6,
+    "wavelength_um": 4.4886,
+    "molecules": [],
+    "flux_ujy": 54830.2,
+    "flux_err_ujy": 1097.1,
+    "snr": 50.0
+  },
+  {
+    "channel": 88,
+    "band": 6,
+    "wavelength_um": 4.5234,
+    "molecules": [],
+    "flux_ujy": 53969.67,
+    "flux_err_ujy": 1079.89,
+    "snr": 50.0
+  },
+  {
+    "channel": 89,
+    "band": 6,
+    "wavelength_um": 4.5584,
+    "molecules": [],
+    "flux_ujy": 53275.51,
+    "flux_err_ujy": 1066.01,
+    "snr": 50.0
+  },
+  {
+    "channel": 90,
+    "band": 6,
+    "wavelength_um": 4.5936,
+    "molecules": [],
+    "flux_ujy": 51675.14,
+    "flux_err_ujy": 1034.0,
+    "snr": 50.0
+  },
+  {
+    "channel": 91,
+    "band": 6,
+    "wavelength_um": 4.6292,
+    "molecules": [
+      "CO"
+    ],
+    "flux_ujy": 52238.6,
+    "flux_err_ujy": 1045.27,
+    "snr": 50.0
+  },
+  {
+    "channel": 92,
+    "band": 6,
+    "wavelength_um": 4.665,
+    "molecules": [
+      "CO"
+    ],
+    "flux_ujy": 50800.0,
+    "flux_err_ujy": 1016.5,
+    "snr": 50.0
+  },
+  {
+    "channel": 93,
+    "band": 6,
+    "wavelength_um": 4.7011,
+    "molecules": [
+      "CO"
+    ],
+    "flux_ujy": 50699.25,
+    "flux_err_ujy": 1014.49,
+    "snr": 50.0
+  },
+  {
+    "channel": 94,
+    "band": 6,
+    "wavelength_um": 4.7374,
+    "molecules": [
+      "CO"
+    ],
+    "flux_ujy": 50974.47,
+    "flux_err_ujy": 1019.99,
+    "snr": 50.0
+  },
+  {
+    "channel": 95,
+    "band": 6,
+    "wavelength_um": 4.7741,
+    "molecules": [],
+    "flux_ujy": 49450.93,
+    "flux_err_ujy": 989.52,
+    "snr": 50.0
+  },
+  {
+    "channel": 96,
+    "band": 6,
+    "wavelength_um": 4.811,
+    "molecules": [],
+    "flux_ujy": 48966.51,
+    "flux_err_ujy": 979.83,
+    "snr": 50.0
+  },
+  {
+    "channel": 97,
+    "band": 6,
+    "wavelength_um": 4.8482,
+    "molecules": [],
+    "flux_ujy": 47662.16,
+    "flux_err_ujy": 953.74,
+    "snr": 50.0
+  },
+  {
+    "channel": 98,
+    "band": 6,
+    "wavelength_um": 4.8857,
+    "molecules": [],
+    "flux_ujy": 47116.2,
+    "flux_err_ujy": 942.82,
+    "snr": 50.0
+  },
+  {
+    "channel": 99,
+    "band": 6,
+    "wavelength_um": 4.9235,
+    "molecules": [],
+    "flux_ujy": 47320.28,
+    "flux_err_ujy": 946.91,
+    "snr": 50.0
+  },
+  {
+    "channel": 100,
+    "band": 6,
+    "wavelength_um": 4.9616,
+    "molecules": [],
+    "flux_ujy": 45415.74,
+    "flux_err_ujy": 908.81,
+    "snr": 50.0
+  },
+  {
+    "channel": 101,
+    "band": 6,
+    "wavelength_um": 5.0,
+    "molecules": [],
+    "flux_ujy": 44318.91,
+    "flux_err_ujy": 886.88,
+    "snr": 50.0
+  }
+]

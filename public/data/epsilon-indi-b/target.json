@@ -1,0 +1,23 @@
+{
+  "id": "epsilon-indi-b",
+  "name": "Epsilon Indi B",
+  "designation": "Eps Ind Ba / Bb (Binary Brown Dwarf)",
+  "ra_deg": 331.0438,
+  "dec_deg": -56.7827,
+  "ra_hms": "22h 04m 10.52s",
+  "dec_dms": "-56\u00b0 46' 57.7\"",
+  "type": "T1 + T6 Binary Brown Dwarf System",
+  "distance_pc": 3.63,
+  "pm_ra_mas_yr": 3961.4,
+  "pm_dec_mas_yr": -2538.3,
+  "behavior": "High Proper Motion + Methane Absorption",
+  "description": "Nearby benchmark binary brown dwarf system (spectral types T1 and T6). Due to cold atmospheric temperatures (T ~ 1000 K), its atmosphere is rich in methane (CH4) and water vapor. It moves swiftly across epochs (~4.7 arcsec/yr) while displaying profound spectral absorption troughs at 1.66, 2.2, and 3.3 \u03bcm.",
+  "expected_findings": [
+    "Significant proper motion (~4.7\"/yr) shifting position across SPHEREx epochs.",
+    "Deep diagnostic methane (CH4) absorption troughs at 1.66 \u03bcm, 2.2 \u03bcm, and 3.3 \u03bcm in the 102-band SED.",
+    "Extremely high infrared-to-optical flux ratio (faint in Gaia optical G-band, vibrant in SPHEREx NIR)."
+  ],
+  "is_infrared_only": false,
+  "variability_type": "Low (Rotational modulation < 3%)",
+  "sed_profile": "t_dwarf"
+}

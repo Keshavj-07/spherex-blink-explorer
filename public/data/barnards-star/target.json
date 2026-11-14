@@ -1,0 +1,23 @@
+{
+  "id": "barnards-star",
+  "name": "Barnard's Star",
+  "designation": "GJ 699 / V2500 Oph",
+  "ra_deg": 269.4521,
+  "dec_deg": 4.6934,
+  "ra_hms": "17h 57m 48.50s",
+  "dec_dms": "+04\u00b0 41' 36.2\"",
+  "type": "High-Proper-Motion Red Dwarf (M4V)",
+  "distance_pc": 1.83,
+  "pm_ra_mas_yr": -798.58,
+  "pm_dec_mas_yr": 10328.12,
+  "behavior": "High Proper Motion",
+  "description": "Second-closest stellar system to the Sun and holder of the fastest known proper motion (~10.36 arcsec/yr). In SPHEREx multi-epoch blink comparisons, Barnard's Star displays a dramatic spatial translation relative to stationary background stars, serving as the gold standard benchmark for moving object verification.",
+  "expected_findings": [
+    "Rapid linear proper motion (~10.36\"/yr) across consecutive epochs.",
+    "Classic M-dwarf spectrum peaking at 1.1-1.3 \u03bcm with TiO and H2O absorption bands.",
+    "Strong detection in both Gaia DR3 (optical) and SPHEREx/CatWISE (infrared) catalogs."
+  ],
+  "is_infrared_only": false,
+  "variability_type": "None (Photometrically stable)",
+  "sed_profile": "m_dwarf"
+}

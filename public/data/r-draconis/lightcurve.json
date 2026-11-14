@@ -1,0 +1,66 @@
+[
+  {
+    "epoch": 1,
+    "mjd": 59580,
+    "date": "2022-01-01",
+    "survey": "CatWISE2020",
+    "flux_ujy": 114701.57,
+    "flux_err_ujy": 2867.54
+  },
+  {
+    "epoch": 2,
+    "mjd": 59945,
+    "date": "2023-01-01",
+    "survey": "NEOWISE-R",
+    "flux_ujy": 118989.95,
+    "flux_err_ujy": 2974.75
+  },
+  {
+    "epoch": 3,
+    "mjd": 60310,
+    "date": "2024-01-01",
+    "survey": "NEOWISE-R",
+    "flux_ujy": 106154.48,
+    "flux_err_ujy": 2653.86
+  },
+  {
+    "epoch": 4,
+    "mjd": 60500,
+    "date": "2024-07-10",
+    "survey": "SPHEREx Cal",
+    "flux_ujy": 63092.47,
+    "flux_err_ujy": 1577.31
+  },
+  {
+    "epoch": 5,
+    "mjd": 60680,
+    "date": "2025-01-06",
+    "survey": "SPHEREx Pass 1 (Epoch 1)",
+    "flux_ujy": 120960.99,
+    "flux_err_ujy": 3024.02
+  },
+  {
+    "epoch": 6,
+    "mjd": 60865,
+    "date": "2025-07-10",
+    "survey": "SPHEREx Pass 2",
+    "flux_ujy": 166063.66,
+    "flux_err_ujy": 4151.59
+  },
+  {
+    "epoch": 7,
+    "mjd": 61050,
+    "date": "2026-01-11",
+    "survey": "SPHEREx Pass 3 (Epoch 2)",
+    "flux_ujy": 110742.4,
+    "flux_err_ujy": 2768.56
+  },
+  {
+    "epoch": 8,
+    "mjd": 61230,
+    "date": "2026-07-10",
+    "survey": "SPHEREx Pass 4",
+    "flux_ujy": 63941.67,
+    "flux_err_ujy": 1598.54
+  }
+]
