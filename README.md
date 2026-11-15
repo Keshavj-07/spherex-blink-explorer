@@ -69,7 +69,7 @@ the app then shows a retry message, and any field opened before still loads from
 
 ```bash
 npm install
-pip install -r server/requirements.txt
+python -m pip install -r server/requirements.txt
 
 npm run api      # Python API on :8000
 npm run dev      # web app on :3000 (proxies /api to :8000)
