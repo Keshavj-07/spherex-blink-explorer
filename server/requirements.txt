@@ -1,0 +1,8 @@
+fastapi>=0.110
+uvicorn>=0.29
+python-multipart
+numpy>=1.26
+astropy>=6.0
+fsspec>=2024.2
+aiohttp>=3.9
+requests>=2.31
