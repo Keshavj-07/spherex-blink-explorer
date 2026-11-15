@@ -1,13 +1,15 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none">
-  <circle cx="50" cy="50" r="48" fill="#090D1A" stroke="#00F0FF" stroke-width="2"/>
-  <ellipse cx="50" cy="50" rx="38" ry="16" stroke="#FFB800" stroke-width="2" stroke-dasharray="4 2" transform="rotate(-25 50 50)"/>
-  <circle cx="50" cy="50" r="18" fill="url(#grad)"/>
-  <circle cx="68" cy="38" r="6" fill="#00F0FF"/>
-  <path d="M50 10 L50 22 M50 78 L50 90 M10 50 L22 50 M78 50 L90 50" stroke="#00F0FF" stroke-width="1.5" stroke-linecap="round"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
   <defs>
-    <radialGradient id="grad" cx="40%" cy="40%" r="60%">
-      <stop offset="0%" stop-color="#FF5722"/>
-      <stop offset="100%" stop-color="#0B3D91"/>
-    </radialGradient>
+    <clipPath id="s"><circle cx="14.5" cy="17" r="10"/></clipPath>
   </defs>
+  <rect x="0.5" y="0.5" width="31" height="31" rx="8" fill="#0e1529" stroke="#2b3964"/>
+  <g clip-path="url(#s)">
+    <rect x="4" y="7" width="21" height="2.633" fill="#38bdf8"/>
+    <rect x="4" y="10.333" width="21" height="2.633" fill="#818cf8"/>
+    <rect x="4" y="13.667" width="21" height="2.633" fill="#c084fc"/>
+    <rect x="4" y="17" width="21" height="2.633" fill="#f472b6"/>
+    <rect x="4" y="20.333" width="21" height="2.633" fill="#fb923c"/>
+    <rect x="4" y="23.667" width="21" height="2.633" fill="#f87171"/>
+  </g>
+  <path d="M25 3.6 L25.95 6.55 L28.9 7.5 L25.95 8.45 L25 11.4 L24.05 8.45 L21.1 7.5 L24.05 6.55 Z" fill="#00F0FF"/>
 </svg>
