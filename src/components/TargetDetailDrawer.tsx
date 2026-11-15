@@ -101,7 +101,7 @@ export const TargetDetailDrawer: React.FC<TargetDetailDrawerProps> = ({
             Space Apps Benchmark Verification
           </h3>
           <div className="space-y-1.5">
-            {target.expected_findings.map((finding, idx) => (
+            {target.expected_findings.map((finding: string, idx: number) => (
               <div
                 key={idx}
                 className="flex items-start gap-2 p-2 rounded-lg bg-space-950/40 border border-space-800"

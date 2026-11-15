@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import {
-  Telescope, Search, Globe2, Database, Link2, Play, Pause, Loader2, Info, Layers, AlertTriangle, Check,
+  Telescope, Search, Globe2, Database, Link2, Play, Pause, Loader2, Info, Layers, AlertTriangle, Check, Sparkles, ShieldAlert,
 } from 'lucide-react';
 import { api, Frame, FieldMeta, GaiaSource, Release, ResolvedObject, SpectrumPoint, WiseSource } from './lib/api';
 import { degToDMS, degToHMS, mjdToYear, parseAngle, parseCoordinates } from './lib/sky';
@@ -12,6 +12,7 @@ import { SpectrumPanel, epochColor } from './components/SpectrumPanel';
 import { ExposureTable } from './components/ExposureTable';
 import { ReleasesModal } from './components/ReleasesModal';
 import { AtlasModal } from './components/AtlasModal';
+import { PlanetXDetectorModal } from './components/PlanetXDetectorModal';
 
 type Mode = 'play' | 'blink' | 'diff' | 'resid' | 'sum';
 type StackMode = 'all' | 'det' | 'channel';
@@ -77,6 +78,8 @@ export const App: React.FC = () => {
   const [stretch, setStretch] = useState<StretchMode>((params.get('stretch') as StretchMode) || 'asinh');
   const [showGaia, setShowGaia] = useState(params.get('gaia') !== '0');
   const [showWise, setShowWise] = useState(params.get('wise') !== '0');
+  const [flagIrOnly, setFlagIrOnly] = useState(params.get('ironly') !== '0');
+  const [planetXOpen, setPlanetXOpen] = useState(false);
 
   // ---------------------------------------------------------------- data
   const [target, setTarget] = useState<Target | null>(null);
@@ -90,6 +93,7 @@ export const App: React.FC = () => {
   const [exposureView, setExposureView] = useState<{ did: string; image: Float32Array; label: string; mjd: number } | null>(null);
   const [gaia, setGaia] = useState<GaiaSource[]>([]);
   const [wise, setWise] = useState<WiseSource[]>([]);
+  const irMoversCount = useMemo(() => wise.filter((w) => w.ir_only_mover_candidate).length, [wise]);
   const [catErr, setCatErr] = useState<string | null>(null);
   const [aperture, setAperture] = useState<Aperture | null>(null);
   const [spectrum, setSpectrum] = useState<SpectrumPoint[]>([]);
@@ -469,6 +473,15 @@ export const App: React.FC = () => {
             <button className="btn-primary" type="submit">Go</button>
           </form>
           <div className="flex items-center gap-2 ml-auto">
+            <button
+              type="button"
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-gradient-to-r from-amber-500/20 to-orange-500/10 hover:from-amber-500/30 hover:to-orange-500/20 border border-amber-500/40 text-amber-300 text-xs font-semibold shadow-sm transition-all"
+              onClick={() => setPlanetXOpen(true)}
+              title="How SPHEREx detects cold brown dwarfs & Planet X candidates"
+            >
+              <Sparkles className="w-3.5 h-3.5 text-amber-400 animate-pulse" />
+              <span>Planet X Guide</span>
+            </button>
             <button className="btn" onClick={() => setAtlasOpen(true)} title="Browse the whole sky"><Globe2 className="w-4 h-4" /> Sky atlas</button>
             <button className="btn" onClick={() => setReleasesOpen(true)} title="Data releases & uploads">
               <Database className="w-4 h-4" /> {release.split('+').map((n) => releases.find((r) => r.name === n)?.label || n).join(' + ') || 'Release'}
@@ -500,7 +513,7 @@ export const App: React.FC = () => {
             {grid && view ? (
               <SkyCanvas grid={grid} image={view.image} vmin={view.vmin} vmax={view.vmax} diverging={view.diverging}
                 stretch={stretch} colormap={view.diverging ? 'coolwarm' : colormap} frameYear={view.year}
-                gaia={gaiaShown} wise={wiseShown} showGaia={showGaia} showWise={showWise}
+                gaia={gaiaShown} wise={wiseShown} showGaia={showGaia} showWise={showWise} flagIrOnly={flagIrOnly}
                 track={track} currentEpoch={view.epoch} aperture={aperture}
                 onAperture={(a) => setAperture(a)} label={view.label} />
             ) : (
@@ -614,6 +627,14 @@ export const App: React.FC = () => {
               </label>
               <label className="flex items-center gap-1 text-slate-400"><input type="checkbox" checked={showGaia} onChange={(e) => setShowGaia(e.target.checked)} /><span className="text-nasa-cyan">○</span> Gaia DR3 <span className="text-slate-600">(G&lt;20)</span></label>
               <label className="flex items-center gap-1 text-slate-400"><input type="checkbox" checked={showWise} onChange={(e) => setShowWise(e.target.checked)} /><span className="text-nasa-amber">◇</span> CatWISE2020 <span className="text-slate-600">(W1|W2&lt;17)</span></label>
+              <label className={`flex items-center gap-1.5 px-2 py-0.5 rounded border text-xs font-semibold cursor-pointer transition-all ${flagIrOnly ? 'bg-red-500/20 border-red-500/60 text-red-300' : 'border-space-700 text-slate-400 hover:text-slate-200'}`} title="Flag sources with significant CatWISE infrared proper motion and NO Gaia optical match (Planet X / Cold Brown Dwarf signature)">
+                <input type="checkbox" checked={flagIrOnly} onChange={(e) => setFlagIrOnly(e.target.checked)} className="accent-red-500" />
+                <ShieldAlert className="w-3.5 h-3.5 text-red-400" />
+                <span>Flag IR-Only Movers</span>
+                {irMoversCount > 0 && (
+                  <span className="px-1.5 py-0.2 rounded-full bg-red-500 text-white text-[10px] font-mono animate-pulse">{irMoversCount}</span>
+                )}
+              </label>
             </div>
             <div className="flex items-center gap-2">
               <span className="text-slate-400 w-24 shrink-0 font-mono">{ch.lo.toFixed(3)}–{ch.hi.toFixed(3)} µm</span>
@@ -697,6 +718,14 @@ export const App: React.FC = () => {
         onUploadsChanged={() => setUploadsTick((t) => t + 1)} />
       <AtlasModal open={atlasOpen} onClose={() => setAtlasOpen(false)} ra={target?.ra ?? 0} dec={target?.dec ?? 0}
         onPick={(ra, dec) => goTo({ ra, dec, pmra: null, pmdec: null, posEpoch: 2000, name: null, info: null })} />
+      <PlanetXDetectorModal
+        isOpen={planetXOpen}
+        onClose={() => setPlanetXOpen(false)}
+        onJumpToWISE0855={() => {
+          resolveAndLoad('WISE J085510.83-071442.5');
+          setPlanetXOpen(false);
+        }}
+      />
     </div>
   );
 };

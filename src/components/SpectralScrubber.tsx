@@ -82,7 +82,7 @@ export const SpectralScrubber: React.FC<SpectralScrubberProps> = ({
         <div className="flex items-center gap-1.5 flex-wrap">
           <span className="text-[11px] text-slate-400">Atmospheric Tracers:</span>
           {currentChannel.molecules.length > 0 ? (
-            currentChannel.molecules.map((mol) => (
+            currentChannel.molecules.map((mol: string) => (
               <span
                 key={mol}
                 className="px-2 py-0.5 rounded-full text-[10px] font-mono font-bold bg-amber-500/20 text-amber-300 border border-amber-500/40 flex items-center gap-1 animate-pulse"

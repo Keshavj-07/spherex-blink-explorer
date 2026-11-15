@@ -28,6 +28,7 @@ interface Props {
   wise: WiseSource[];
   showGaia: boolean;
   showWise: boolean;
+  flagIrOnly: boolean;
   track: { x: number; y: number; epoch: number }[] | null;
   currentEpoch: number | null;
   aperture: Aperture | null;
@@ -153,6 +154,34 @@ export const SkyCanvas: React.FC<Props> = (p) => {
         ctx.stroke();
       }
     }
+    if (p.flagIrOnly) {
+      for (const w of p.wise) {
+        if (!w.ir_only_mover_candidate) continue;
+        const q = sourcePix(w.ra, w.dec, w.pmra, w.pmdec, w.epoch);
+        const s = toScreen(q.x, q.y);
+        if (s.sx < -30 || s.sy < -30 || s.sx > size + 30 || s.sy > size + 30) continue;
+
+        ctx.save();
+        ctx.strokeStyle = '#ef4444';
+        ctx.lineWidth = 2;
+        ctx.setLineDash([4, 3]);
+        ctx.beginPath();
+        const ringRadius = 15 * Math.max(1, zoom * 0.5);
+        ctx.arc(s.sx, s.sy, ringRadius, 0, Math.PI * 2);
+        ctx.stroke();
+
+        const tag = 'COLD MOVER / PLANET X';
+        ctx.font = 'bold 9px monospace';
+        const tw = ctx.measureText(tag).width;
+        ctx.fillStyle = 'rgba(239, 68, 68, 0.9)';
+        ctx.fillRect(s.sx - tw / 2 - 4, s.sy - ringRadius - 16, tw + 8, 14);
+        ctx.fillStyle = '#ffffff';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(tag, s.sx, s.sy - ringRadius - 9);
+        ctx.restore();
+      }
+    }
     if (p.track && p.track.length > 1) {
       ctx.strokeStyle = 'rgba(168,85,247,0.9)';
       ctx.lineWidth = 1.5;
@@ -259,7 +288,7 @@ export const SkyCanvas: React.FC<Props> = (p) => {
           if (dist < MARK_HIT_PX && (!best || dist < best.dist)) best = { ...s, dist };
         };
         if (p.showGaia) p.gaia.forEach(consider);
-        if (p.showWise) p.wise.forEach(consider);
+        if (p.showWise || p.flagIrOnly) p.wise.forEach(consider);
         const radius = p.aperture?.radiusArcsec ?? 12.3;
         if (best) {
           const b = best as { ra: number; dec: number; pmra: number | null; pmdec: number | null; epoch: number; id: string };
