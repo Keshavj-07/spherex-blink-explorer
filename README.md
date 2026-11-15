@@ -1,169 +1,102 @@
-# 🔭 SPHEREx Blink & Spectrum Explorer
+# SPHEREx Blink Explorer
 
-[![NASA Space Apps Challenge 2026](https://img.shields.io/badge/NASA%20Space%20Apps-2026%20Challenge-0B3D91?style=for-the-badge&logo=nasa)](https://www.spaceappschallenge.org/)
-[![SPHEREx Mission](https://img.shields.io/badge/Mission-NASA%20SPHEREx-00F0FF?style=for-the-badge)](https://spherex.caltech.edu/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg?style=for-the-badge)](LICENSE)
-[![Deploy on Vercel](https://img.shields.io/badge/Deploy-Vercel-black?style=for-the-badge&logo=vercel)](https://vercel.com)
+A public web tool for the 2026 NASA Space Apps Challenge **"Planet X and SPHEREx"**. Type a name or
+coordinates anywhere on the sky. The tool pulls every NASA SPHEREx image of that spot live from
+NASA/IPAC IRSA and plays them as a short movie, so moving and variable objects are easy to spot.
+Click or draw a circle on the image to get a 0.75–5 µm spectrum on the fly.
 
-**SPHEREx Blink & Spectrum Explorer** is a high-performance, public-facing astronomical browser tool engineered for the **2026 NASA Space Apps Challenge ("Planet X and SPHEREx")**. 
+All data is real and fetched on demand. No images, spectra or catalogs are stored in the repo.
 
-It allows scientists, citizen astronomers, and challenge judges to interactively inspect multi-epoch near-infrared sky imagery (0.75 – 5.0 μm across 102 spectral channels) from NASA's SPHEREx mission to visually detect high-proper-motion objects (substellar brown dwarfs, rogue worlds, and hypothetical Planet X candidates) as well as photometric variable stars.
+## What it does
 
----
+| Challenge item | How it is handled |
+|---|---|
+| Enter RA/Dec, see the patch as a movie | Search box accepts SIMBAD names, decimal degrees or sexagesimal (`08h55m10.831s -07d14m42.53s`, `08:55:10.8 -07:14:42.5`). Exposures are grouped into epochs (visits ~6 months apart), co-added per epoch, and animated. |
+| Whole sky, not just test objects | Any position works. The **Sky atlas** (Aladin Lite, CDS) lets you browse the full sky and click to load SPHEREx data there. |
+| Add / subtract epochs | Modes: *Animate*, *Blink A/B*, *B − A* difference, *Epoch − rest* (each epoch minus the mean of the others), *Sum all*. |
+| 102 bands | Stack all six detectors (max S/N), one detector array, or one of the 102 wavelength channels. SPHEREx uses linear variable filters, so every pixel has its own wavelength. The channel stack uses only pixels whose wavelength falls in that slice. |
+| Spectra on the fly | Click a source, or click-and-drag a circle. Aperture photometry runs on every exposure, one spectral point each, coloured by epoch. For sources with known proper motion, the aperture follows the source. CSV download. |
+| Light curves | Flux vs. time in the selected wavelength channel. |
+| Field of view | 2′ to 30′ (the URL accepts any value from 1 to 30). |
+| Gaia / WISE overlays | Gaia DR3 (moved from epoch 2016.0 to each frame's date) and CatWISE2020 (from 2015.4). CatWISE sources with significant proper motion, clean flags and no Gaia counterpart are flagged red as candidate infrared-only movers. |
+| Coordinates in the URL | Every view is a shareable link, e.g. `?ra=133.7951&dec=-7.2451&fov=5&mode=diff` or `?target=Barnard's Star`. Add `&embed=1` for an iframe-friendly layout. |
+| Metadata / contamination flags | Exposure table with date, detector, wavelength, coverage and the SPHEREx flag bits at the field centre (ghost, crosstalk, streak, halo…). Unusable pixels are always masked. *Mask contamination* also masks the contamination flags. |
+| Easy to update with new data | IRSA is queried live on every load, so new exposures appear automatically. **Check for new releases** probes IRSA for new SPHEREx collections. By default all all-sky releases are combined (currently DR1 + QR3) with duplicates removed. You can also **upload** SPHEREx Level-2 FITS files, which are merged into any field they overlap. |
 
-## 🌟 Key Features
+## The challenge test objects
 
-### 1. Multi-Epoch Blink Comparator & Cross-Fader
-* **High-Speed Astronomical Blinker:** Toggle between Epoch 1 and Epoch 2 at customizable frequencies (0.5 Hz, 1 Hz, 2 Hz, 4 Hz).
-* **Cross-Fade Slider:** Manually blend between epochs with continuous opacity controls (0% to 100%).
-* **Astrometric Motion Detection:** Background stars remain stationary while high-proper-motion objects (e.g. Barnard's Star, Epsilon Indi B, WISE 0855) visibly jump across the field of view.
+Positions and proper motions are resolved live from SIMBAD (CDS Sesame) and propagated to the
+SPHEREx epoch, so fast movers are found where they actually are now, not at their J2000 positions.
 
-### 2. Real-Time Difference Imaging ($\Delta = \text{Epoch 2} - \text{Epoch 1}$)
-* **Dipole Signature for Movers:** Subtracting Epoch 1 from Epoch 2 cancels stationary background stars to zero noise while moving bodies resolve into distinct **positive/negative dipole pairs** (bright/dark or red/blue in Coolwarm colormap).
-* **Monopolar Residual for Variables:** Photometrically variable stars (e.g., RW Aurigae, R Draconis) remain spatially centered and manifest as clean positive or negative circular residuals without dipole displacement.
+| Object | SIMBAD (J2000, ep. 2000) | Proper motion | What SPHEREx shows |
+|---|---|---|---|
+| Barnard's Star | 269.45208, +4.69336 | 10.39″/yr | Clear north-going +/− pair in *B − A*. Saturated core, so no reliable photometry. |
+| ε Indi B (Ba+Bb, T1+T6) | 331.04415, −56.78284 | 4.68″/yr | Full T-dwarf spectrum: Y/J/H/K peaks, CH₄ troughs at 1.65/2.2/3.3 µm, 4 µm peak, CO/CO₂ absorption. |
+| WISE 0855−0714 | 133.81891, −7.24705 | 8.15″/yr | Moves 1.3 px across the data. Flagged as an infrared-only mover. In 2025–26 it lies 6.9″ from a G = 16.3 field star, which dominates the short-wavelength flux in the aperture. |
+| RW Aurigae | 76.95653, +30.40144 | 0.02″/yr | Very bright. The core is masked in most exposures (266 of 333), so only a few partial measurements remain. |
+| R Draconis | 248.16761, +66.75498 | 0.02″/yr | Too bright for SPHEREx (core saturated in all exposures). |
 
-### 3. 102-Band Spectral Scrubber (0.75 – 5.0 μm)
-* **Continuous Channel Stepper:** Step across all 102 SPHEREx spectral channels spanning the 6 spectrometer detector arrays:
-  * **Band 1 (0.75 – 1.11 μm, $R \approx 41$):** Optical-to-NIR transition.
-  * **Band 2 (1.11 – 1.64 μm, $R \approx 41$):** J-band & water vapor window.
-  * **Band 3 (1.64 – 2.42 μm, $R \approx 41$):** H & K bands, methane overtones.
-  * **Band 4 (2.42 – 3.82 μm, $R \approx 35$):** Hydrocarbons & water ice cloud absorption.
-  * **Band 5 (3.82 – 4.42 μm, $R \approx 110$):** Coldest sub-stellar thermal peak & $\text{CO}_2$ ice.
-  * **Band 6 (4.42 – 5.00 μm, $R \approx 130$):** Carbon monoxide ($\text{CO}$) & $4.65\ \mu\text{m}$ atmospheric window.
-* **Molecular Absorption Tracers:** Dynamically flags key diagnostic absorption lines ($\text{H}_2\text{O}$, $\text{CH}_4$, $\text{CO}_2$, $\text{CO}$, $\text{TiO}$).
+The challenge text gives WISE 0855 as 08h55m10.831s −07°14′42.53″. That is its position around
+2010, so the tool corrects it with the proper motion.
 
-### 4. Click-to-Plot Spectrophotometry (SED & Light Curve)
-* **102-Band Spectral Energy Distribution (SED):** Interactive flux ($\mu\text{Jy}$) vs. wavelength ($\mu\text{m}$) chart with shaded molecular absorption regions and signal-to-noise readouts.
-* **Multi-Epoch Infrared Light Curve:** Calibrated flux history tracking photometric variations across SPHEREx passes and precursor surveys (CatWISE2020, NEOWISE-R).
+SPHEREx pixels are 6.15″, so even the fastest stars move only about 1–2 px per year. Zoom in and
+use the purple predicted track.
 
-### 5. Vector Catalog Overlays & "Planet X / Cold Object" Filter
-* **Gaia DR3 (Optical):** Vector overlays (cyan circles) indicating optical source positions.
-* **CatWISE / AllWISE (Infrared):** Vector overlays (amber diamonds) marking thermal infrared emitters.
-* **"Flag Infrared-Only Movers":** Automated detection filter that isolates sources exhibiting high proper motion in the infrared with **zero counterpart in Gaia DR3** ($G > 23.0\ \text{mag}$). This is the exact signature of a cold Y-type brown dwarf or hypothetical outer Solar System planet (**Planet X**).
-
-### 6. Deep-Linking & Coordinate Search
-* **Deep URL State Synchronization:** Share exact viewer states, coordinates, and filters via query parameters (e.g., `?target=wise-0855&channel=85&mode=diff`).
-* **Sexagesimal & Decimal Coordinate Parser:** Supports arbitrary astronomical target searches by name or coordinates (`RA, Dec`).
-
----
-
-## 🎯 The 5 Official Benchmark Targets
-
-Preloaded and validated against the challenge criteria:
-
-| Target | Object Type | Coordinates (J2000) | Proper Motion | Expected Behavior & Diagnostic Findings |
-|---|---|---|---|---|
-| **1. Barnard's Star** | Red Dwarf (M4V) | `17h 57m 48.50s`<br>`+04° 41' 36.2"` | $\mu = 10.36''/\text{yr}$ | Fastest known proper motion; textbook linear spatial jump across epochs; prominent TiO & $\text{H}_2\text{O}$ absorption. |
-| **2. Epsilon Indi B** | Binary Brown Dwarf (T1 + T6) | `22h 04m 10.52s`<br>`-56° 46' 57.7"` | $\mu = 4.70''/\text{yr}$ | Fast motion; distinctive substellar methane ($\text{CH}_4$) absorption troughs at 1.66, 2.2, and 3.3 $\mu\text{m}$. |
-| **3. WISE 0855-0714** | Sub-stellar Y4 Dwarf ($T \sim 250\ \text{K}$) | `08h 55m 10.83s`<br>`-07° 14' 42.5"` | $\mu = 8.16''/\text{yr}$ | **Planet X Analog**: Coldest known brown dwarf; **100% optical invisibility** (absent in Gaia DR3); extreme proper motion with massive thermal surge in SPHEREx Bands 5 & 6 (3.8–5.0 $\mu\text{m}$). |
-| **4. RW Aurigae** | Classical T Tauri Star | `05h 07m 49.54s`<br>`+30° 24' 05.1"` | Negligible ($\sim 0.01''/\text{yr}$) | Spatially stationary; severe photometric dimming ($\Delta \sim 50\%$) caused by circumstellar dust occultation streams; clean monopolar negative residual in difference mode. |
-| **5. R Draconis** | Mira-Type Variable Pulsator | `16h 32m 40.23s`<br>`+66° 45' 17.9"` | Negligible ($\sim 0.01''/\text{yr}$) | Spatially stationary; sinusoidal periodic pulsation ($P = 245.5\ \text{days}$); pure monopolar difference residual; deep carbon monoxide ($\text{CO}$) band at 4.67 $\mu\text{m}$. |
-
----
-
-## 🏗️ Architecture & Tech Stack
+## Architecture
 
 ```
-spherex-blink-explorer/
-├── public/
-│   ├── data/                   # Pre-cached 0-latency benchmark datasets
-│   │   ├── targets.json        # Master targets catalog & coordinates
-│   │   ├── channels.json       # 102 SPHEREx channels metadata
-│   │   └── <target-slug>/      # epoch1.png, epoch2.png, diff.png, spectrum.json, etc.
-│   └── favicon.svg
-├── scripts/
-│   ├── fetch_and_process.py    # Python IRSA/MAST pipeline & synthetic generator
-│   └── requirements.txt        # astropy, astroquery, numpy, scipy, pillow
-├── src/
-│   ├── components/             # SkyViewer, ViewerControls, SpectralScrubber, etc.
-│   ├── types/                  # TypeScript astronomical interfaces
-│   ├── utils/                  # Colormaps (LUTs), Stretches, WCS coordinates
-│   ├── App.tsx                 # Main layout & synchronized state management
-│   └── main.tsx
-├── package.json
-├── tailwind.config.js
-├── vite.config.ts
-└── vercel.json                 # Vercel deployment configuration
+browser (React + Vite + Tailwind + Recharts + Aladin Lite)
+   │  /api/*
+   ▼
+server/ (FastAPI, Python)
+   ├─ IRSA SIA v2      → which SPHEREx L2 exposures cover the field (any release)
+   ├─ AWS Open Data S3 → HTTP range reads of only the needed pixels
+   │                     (IMAGE − ZODI, VARIANCE, FLAGS, per-pixel wavelength from WCS-WAVE)
+   ├─ resample every exposure onto one TAN grid at 6.15″/px, group into epochs,
+   │  inverse-variance co-add, aperture photometry
+   ├─ CDS Sesame (names), ESA Gaia DR3 TAP, IRSA CatWISE2020 cone search
+   └─ uploads/ (user FITS), cache/ (resampled cutouts, so revisits are instant)
 ```
 
-* **Frontend:** React 18 + TypeScript + Vite + Tailwind CSS (astronomy dark theme).
-* **Charting:** Recharts (responsive vector spectrophotometric rendering).
-* **Canvas Engine:** HTML5 Canvas with precomputed 256-level colormap lookup tables (LUTs) for smooth 60 FPS multi-epoch rendering.
-* **Pipeline:** Python 3 (`numpy`, `astropy`, `pillow`, `scipy`).
+The first load of a field reads about 250–550 exposures in parallel and takes about 1–2 minutes.
+After that it is cached.
 
----
-
-## 🚀 Quick Start & Local Development
-
-### 1. Clone & Install Dependencies
+## Run locally
 
 ```bash
-git clone https://github.com/keshavjhunjhunwala/spherex-blink-explorer.git
-cd spherex-blink-explorer
-
 npm install
+pip install -r server/requirements.txt
+
+npm run api      # Python API on :8000
+npm run dev      # web app on :3000 (proxies /api to :8000)
 ```
 
-### 2. Run the Data Pipeline (Optional, pre-built in `/public/data`)
+## Deploy
+
+The tool needs the Python API, so a static-only host is not enough. The included `Dockerfile` builds
+the web app and serves it together with the API on port 8000. Any container host works (Render,
+Railway, Fly.io, Google Cloud Run…):
 
 ```bash
-pip install -r scripts/requirements.txt
-python scripts/fetch_and_process.py
+docker build -t spherex-blink .
+docker run -p 8000:8000 spherex-blink
 ```
 
-### 3. Launch Development Server
+## Method notes and caveats
 
-```bash
-npm run dev
-```
+* Fluxes are aperture sums of zodi-subtracted surface brightness, minus a local-annulus median,
+  times the pixel solid angle (1 MJy/sr × (6.15″)² = 889 µJy). They are not aperture-corrected.
+  Treat them as relative unless the source is isolated.
+* Apertures with more than 50% masked pixels are skipped. Bright, saturated stars therefore have
+  few or no spectral points.
+* Always-masked flags: TRANSIENT, OVERFLOW, SUR_ERROR, NONFUNC, DICHROIC, MISSING_DATA, HOT,
+  COLD, NONLINEAR, PERSIST, OUTLIER. Contamination flags (shown, and optionally masked):
+  CROSSTALK, GHOST, GHOST_FPA, GHOST_EXT, STREAK, BLOOM, SNOWBALL, HALO.
+* Infrared-only mover flags are leads to inspect, not discoveries. Check the images.
 
-Open [http://localhost:3000](http://localhost:3000) in your browser.
+## Data credits
 
-### 4. Build for Production
+NASA SPHEREx via NASA/IPAC Infrared Science Archive (IRSA) and the AWS Open Data Registry;
+ESA Gaia DR3; CatWISE2020 (Marocco et al. 2021) via IRSA; SIMBAD and Aladin Lite (CDS, Strasbourg).
 
-```bash
-npm run build
-```
-
-The production-ready static bundle will be generated in `dist/`.
-
----
-
-## 🌐 Public Deployment Guide
-
-### Deploying to Vercel (Recommended)
-
-1. Push your repository to GitHub:
-   ```bash
-   git init
-   git add .
-   git commit -m "feat: complete SPHEREx Blink & Spectrum Explorer"
-   git branch -M main
-   git remote add origin https://github.com/<your-username>/spherex-blink-explorer.git
-   git push -u origin main
-   ```
-2. Import the repository in [Vercel](https://vercel.com/new).
-3. The included `vercel.json` automatically configures single-page application routing and asset caching.
-4. Click **Deploy** — your app is live!
-
-### Deploying to GitHub Pages or Render
-
-* **Render / Netlify:** Connect the repo, set Build Command to `npm run build`, and Publish Directory to `dist`.
-* **GitHub Pages:** Set GitHub Pages source to GitHub Actions using the standard Vite workflow.
-
----
-
-## 🔬 Scientific Methodology for Space Apps Judges
-
-1. **How does SPHEREx identify moving objects?**
-   SPHEREx surveys the entire sky four times over its 2-year nominal mission. Comparing consecutive sky passes separates fast-moving Solar System bodies and nearby substellar objects from distant, fixed stars.
-2. **Why Difference Imaging?**
-   Subtraction removes unchanging stellar fluxes and detector fixed-pattern noise. Moving sources leave a characteristic dipole: a negative depression at the prior epoch's coordinate and a positive peak at the new epoch's coordinate.
-3. **How does this verify Planet X?**
-   A hypothetical 5–10 Earth-mass planet at 300–800 AU would have an equilibrium temperature below 50 K. It reflects negligible sunlight and emits almost exclusively in the mid-to-far infrared. By filtering for **Infrared-Only Movers** (sources with multi-epoch proper motion in SPHEREx/WISE but undetected in optical catalogs like Gaia), this tool directly isolates candidate signatures of cold brown dwarfs and outer planets.
-
----
-
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details. Built for the 2026 NASA Space Apps Challenge.
+MIT License.

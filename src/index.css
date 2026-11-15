@@ -48,3 +48,15 @@
 .animate-pulse-ring {
   animation: pulse-ring 2.5s infinite ease-in-out;
 }
+
+@layer components {
+  .panel { @apply p-3 rounded-lg bg-space-900 border border-space-800; }
+  .panel-title { @apply text-xs font-bold text-slate-100 uppercase tracking-wider; }
+  .chip { @apply px-2 py-0.5 rounded-md border border-space-700 bg-space-850 text-slate-300 text-[11px] hover:bg-space-800 transition-colors; }
+  .chip-on { @apply border-nasa-cyan/70 bg-nasa-cyan/15 text-nasa-cyan; }
+  .btn { @apply inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-md border border-space-700 bg-space-800 text-slate-200 text-xs hover:bg-space-700 disabled:opacity-50; }
+  .btn-primary { @apply inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-nasa-blue border border-nasa-cyan/40 text-white text-xs font-semibold hover:bg-blue-800 disabled:opacity-50; }
+  .icon-btn { @apply inline-flex items-center justify-center w-7 h-7 rounded-md border border-space-700 bg-space-900/90 text-slate-300 hover:bg-space-700 disabled:opacity-40; }
+  .input { @apply px-2.5 py-1.5 rounded-md bg-space-950 border border-space-700 text-xs text-slate-100 placeholder:text-slate-500 focus:outline-none focus:border-nasa-cyan/60; }
+  .sel { @apply px-1.5 py-0.5 rounded bg-space-950 border border-space-700 text-[11px] text-slate-200; }
+}

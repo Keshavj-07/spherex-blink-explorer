@@ -1,15 +1,18 @@
 {
   "name": "spherex-blink-explorer",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "private": true,
   "description": "SPHEREx Blink & Spectrum Explorer - 2026 NASA Space Apps Challenge",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "api": "python -m uvicorn app:app --app-dir server --port 8000 --reload --reload-dir server",
+    "api:install": "pip install -r server/requirements.txt"
   },
   "dependencies": {
+    "aladin-lite": "^3.8.2",
     "clsx": "^2.1.1",
     "lucide-react": "^1.16.0",
     "react": "^18.3.1",
