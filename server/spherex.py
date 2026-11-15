@@ -83,7 +83,7 @@ CANDIDATE_RELEASES = [
 PROBE_POS = (270.0, 66.56)  # north ecliptic pole deep field: covered in every survey
 
 HTTP = requests.Session()
-HTTP.headers["User-Agent"] = "spherex-blink-explorer/2.0 (NASA Space Apps)"
+HTTP.headers["User-Agent"] = "spherex-data-explorer/2.0 (NASA Space Apps)"
 
 
 # --------------------------------------------------------------------------- utils
@@ -144,16 +144,48 @@ def with_retries(fn, tries=4, base=1.5):
             return fn()
         except Exception as e:  # network hiccups / "Server busy"
             last = e
-            time.sleep(base * (2 ** i))
+            if i < tries - 1:
+                time.sleep(base * (2 ** i))
     raise last
+
+
+class IrsaUnavailable(RuntimeError):
+    """SIA query failed and there is no cached response."""
+
+
+def _describe_http_error(e: Exception) -> str:
+    resp = getattr(e, "response", None)
+    if resp is not None:
+        return f"HTTP {resp.status_code} {resp.reason}".strip()
+    if isinstance(e, requests.Timeout):
+        return "request timed out"
+    if isinstance(e, requests.ConnectionError):
+        return "could not connect"
+    return str(e)[:120]
 
 
 # ---------------------------------------------------------------- release discovery
 
-_release_cache: dict = {"t": 0.0, "data": []}
+SIA_CACHE_DIR = CACHE_DIR / "sia"
+SIA_CACHE_DIR.mkdir(exist_ok=True)
+RELEASES_FILE = CACHE_DIR / "releases.json"
+
+
+def _load_release_cache() -> dict:
+    try:
+        d = json.loads(RELEASES_FILE.read_text())
+        if isinstance(d.get("data"), list):
+            return {"t": float(d.get("t", 0.0)), "data": d["data"]}
+    except Exception:
+        pass
+    return {"t": 0.0, "data": []}
+
+
+_release_cache: dict = _load_release_cache()
 
 
 def sia_query(collection: str, ra: float, dec: float, radius_deg: float, maxrec: Optional[int] = None):
+    """IRSA SIA v2 query. Responses are cached on disk and reused if IRSA is down."""
     params = {
         "COLLECTION": collection,
         "POS": f"CIRCLE {ra} {dec} {radius_deg}",
@@ -161,24 +193,47 @@ def sia_query(collection: str, ra: float, dec: float, radius_deg: float, maxrec:
     }
     if maxrec:
         params["MAXREC"] = str(maxrec)
+    key = hashlib.sha1(json.dumps(params, sort_keys=True).encode()).hexdigest()
+    cpath = SIA_CACHE_DIR / f"{key}.csv"
 
     def go():
         r = HTTP.get(SIA_URL, params=params, timeout=40)
         r.raise_for_status()
         if "busy" in r.text[:200].lower():
             raise RuntimeError("IRSA busy")
+        # IRSA sometimes returns 200 with an empty body during outages
+        header = r.text.split("\n", 1)[0]
+        if "obs_publisher_did" not in header:
+            raise RuntimeError("IRSA returned an empty or invalid response")
         return r.text
 
-    text = with_retries(go, tries=3, base=1.0)
+    try:
+        text = with_retries(go, tries=3, base=1.0)
+    except Exception as e:
+        if cpath.exists():
+            text = cpath.read_text(encoding="utf-8")
+        else:
+            raise IrsaUnavailable(
+                f"NASA/IPAC IRSA's image search is not responding right now ({_describe_http_error(e)}). "
+                "This is a problem on IRSA's side, not in this app. Please retry in a few minutes. "
+                "Fields you have opened before still load from the local cache while IRSA is down."
+            ) from e
+    else:
+        tmp = cpath.with_suffix(".tmp")
+        tmp.write_text(text, encoding="utf-8")
+        tmp.replace(cpath)
     rows = list(csv.DictReader(io.StringIO(text)))
     return [r for r in rows if r.get("obs_publisher_did")]
 
 
-def probe_release(name: str) -> Optional[dict]:
+_PROBE_FAILED = object()  # request failed, vs. None = collection not found
+
+
+def probe_release(name: str):
     try:
         rows = sia_query(name, PROBE_POS[0], PROBE_POS[1], 0.01, maxrec=1)
     except Exception:
-        return None
+        return _PROBE_FAILED
     if not rows:
         return None
     r = rows[0]
@@ -197,10 +252,27 @@ def discover_releases(refresh: bool = False, extra: Optional[list[str]] = None) 
         return _release_cache["data"]
     names = list(dict.fromkeys(CANDIDATE_RELEASES + (extra or [])))
     with ThreadPoolExecutor(8) as ex:
-        found = [r for r in ex.map(probe_release, names) if r]
+        results = list(ex.map(probe_release, names))
+    previous = {r["name"]: r for r in _release_cache["data"]}
+    found, n_failed = [], 0
+    for name, res in zip(names, results):
+        if res is _PROBE_FAILED:
+            # keep the previously known entry
+            n_failed += 1
+            if name in previous:
+                found.append(previous[name])
+        elif res:
+            found.append(res)
+    if n_failed == len(names):
+        return _release_cache["data"]
     # all-sky releases first (newest first); deep-field-only collections after
     found.sort(key=lambda r: (r["all_sky"], r["release_date"], r["name"]), reverse=True)
-    _release_cache.update(t=time.time(), data=found)
+    # partial results are not marked as checked, so they get re-probed next time
+    _release_cache.update(t=time.time() if not n_failed else _release_cache["t"], data=found)
+    try:
+        RELEASES_FILE.write_text(json.dumps(_release_cache))
+    except OSError:
+        pass
     return found
 
 
@@ -673,7 +745,7 @@ def _run_field(job: FieldJob):
 
         rows = query_all(ra, dec)
 
-        # centre on the target's position at the mean epoch of the data (proper motion)
+        # center on the target's position at the mean epoch of the data (proper motion)
         if p.get("pmra") is not None and rows:
             mean_mjd = float(np.mean([float(r["t_min"]) for r in rows]))
             ra, dec = propagate(ra, dec, p["pmra"], p["pmdec"], p.get("pos_epoch", 2000.0), mjd_to_year(mean_mjd))
@@ -726,6 +798,8 @@ def _run_field(job: FieldJob):
         job.epochs = group_epochs(good, p.get("epoch_gap_days", 20.0))
         job.state = "done"
         job.message = f"{len(good)} exposures in {len(job.epochs)} epochs"
+    except IrsaUnavailable as ex:
+        job.state, job.message = "error", str(ex)
     except Exception as ex:  # pragma: no cover
         job.state, job.message = "error", f"{type(ex).__name__}: {ex}"
 
@@ -784,7 +858,7 @@ def single_frame(job: FieldJob, did: str) -> Optional[Exposure]:
 
 def aperture_spectrum(job: FieldJob, ra: float, dec: float, radius_arcsec: float,
                       pmra: Optional[float] = None, pmdec: Optional[float] = None,
-                      pos_epoch: float = 2000.0) -> list[dict]:
+                      pos_epoch: float = 2000.0) -> tuple[list[dict], int]:
     """
     Aperture photometry on every exposure -> one spectral point per exposure.
     Flux = sum(zodi-subtracted SB - local median background) * pixel solid angle.

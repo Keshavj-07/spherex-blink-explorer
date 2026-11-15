@@ -1,5 +1,5 @@
 """
-SPHEREx Blink Explorer API.
+SPHEREx Data Explorer API.
 
 Run:  python -m uvicorn app:app --app-dir server --port 8000
 The Vite dev server proxies /api -> http://localhost:8000.
@@ -21,7 +21,7 @@ from pydantic import BaseModel, Field
 import catalogs
 import spherex as sx
 
-app = FastAPI(title="SPHEREx Blink Explorer API", version="2.0")
+app = FastAPI(title="SPHEREx Data Explorer API", version="2.0")
 app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_methods=["*"], allow_headers=["*"])
 
 
@@ -53,7 +53,8 @@ def releases(refresh: bool = False, extra: Optional[str] = None):
     return {"releases": found, "latest": all_sky[0] if all_sky else (found[0]["name"] if found else None),
             # default = every all-sky release combined -> the most epochs (duplicates removed server-side)
             "default": "+".join(all_sky) if all_sky else None,
-            "checked": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime(sx._release_cache["t"]))}
+            "checked": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime(sx._release_cache["t"]))
+            if sx._release_cache["t"] else None}
 
 
 @app.post("/api/uploads")

@@ -59,7 +59,7 @@ def gaia_cone(ra: float, dec: float, radius_deg: float, limit: int = 50000) -> l
          f"WHERE 1=CONTAINS(POINT('ICRS',ra,dec),CIRCLE('ICRS',{ra},{dec},{radius_deg})) "
          f"ORDER BY phot_g_mean_mag ASC")
     r = with_retries(lambda: HTTP.get(GAIA_TAP, params={"REQUEST": "doQuery", "LANG": "ADQL",
-                                                         "FORMAT": "csv", "QUERY": q}, timeout=90))
+                                                         "FORMAT": "csv", "QUERY": q}, timeout=90), tries=2)
     r.raise_for_status()
     out = []
     for row in csv.DictReader(io.StringIO(r.text)):
