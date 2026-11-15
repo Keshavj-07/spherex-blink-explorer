@@ -37,7 +37,11 @@ export const ReleasesModal: React.FC<Props> = ({ open, onClose, releases, curren
       const r = await api.releases(true, custom.trim() || undefined);
       onReleases(r.releases, r.latest);
       const added = r.releases.filter((x) => !before.has(x.name));
-      setMsg(added.length ? `New release found: ${added.map((a) => a.label).join(', ')}` : `Up to date — checked IRSA at ${r.checked}`);
+      if (!r.checked) {
+        setMsg('IRSA is not responding right now, so releases could not be checked. Please try again in a few minutes.');
+        return;
+      }
+      setMsg(added.length ? `New release found: ${added.map((a) => a.label).join(', ')}` : `Up to date: checked IRSA at ${r.checked}`);
       if (custom.trim() && !r.releases.some((x) => x.name === custom.trim())) setMsg(`'${custom.trim()}' has no SPHEREx images at IRSA`);
     } catch (e: any) {
       setMsg(`Check failed: ${e.message}`);

@@ -9,7 +9,7 @@ interface Props {
   onSelect: (did: string | null) => void;
 }
 
-/** Per-exposure metadata, including the quality / contamination flags at the field centre. */
+/** Per-exposure metadata, including the quality / contamination flags at the field center. */
 export const ExposureTable: React.FC<Props> = ({ exposures, contamination, selected, onSelect }) => {
   const [det, setDet] = useState<number | 0>(0);
   const rows = useMemo(
@@ -29,7 +29,7 @@ export const ExposureTable: React.FC<Props> = ({ exposures, contamination, selec
       <div className="max-h-[220px] overflow-y-auto">
         <table className="w-full text-[10px] font-mono">
           <thead className="text-slate-400 sticky top-0 bg-space-900">
-            <tr><th className="text-left">date (UTC)</th><th>det</th><th>λ centre</th><th>cov</th><th className="text-left">flags at centre</th></tr>
+            <tr><th className="text-left">date (UTC)</th><th>det</th><th>λ center</th><th>cov</th><th className="text-left">flags at center</th></tr>
           </thead>
           <tbody>
             {rows.map((e) => {

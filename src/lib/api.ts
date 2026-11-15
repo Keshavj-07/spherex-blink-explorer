@@ -172,7 +172,7 @@ export function decodeF32(b64: string): Float32Array {
 export const api = {
   releases: (refresh = false, extra?: string) =>
     fetch(`/api/releases?refresh=${refresh}${extra ? `&extra=${encodeURIComponent(extra)}` : ''}`).then((r) =>
-      j<{ releases: Release[]; latest: string | null; default: string | null; checked: string }>(r)
+      j<{ releases: Release[]; latest: string | null; default: string | null; checked: string | null }>(r)
     ),
   resolve: (name: string) => fetch(`/api/resolve?name=${encodeURIComponent(name)}`).then((r) => j<ResolvedObject>(r)),
   startField: (req: FieldRequest) =>

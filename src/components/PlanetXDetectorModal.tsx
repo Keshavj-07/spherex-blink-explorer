@@ -56,7 +56,7 @@ export const PlanetXDetectorModal: React.FC<PlanetXDetectorModalProps> = ({
           <div className="space-y-2.5">
             <h3 className="font-bold text-slate-100 uppercase tracking-wider text-[11px] flex items-center gap-1.5">
               <Sparkles className="w-4 h-4 text-amber-400" />
-              How the SPHEREx Blink & Spectrum Explorer Identifies Candidates
+              How the SPHEREx Data Explorer Identifies Candidates
             </h3>
 
             <div className="grid sm:grid-cols-3 gap-3">

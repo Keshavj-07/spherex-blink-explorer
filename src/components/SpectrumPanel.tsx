@@ -43,25 +43,28 @@ const Tip = ({ active, payload }: any) => {
   );
 };
 
+// invisible markers keep tooltips and clicks working in line view
+const lineHitArea = (p: any) => <circle cx={p.cx} cy={p.cy} r={5} fill="transparent" />;
+
 export const SpectrumPanel: React.FC<Props> = ({ points, epochs, loading, error, label, tracked, window, onPickExposure }) => {
-  const [hideContam, setHideContam] = useState(true);
   const [colorBy, setColorBy] = useState<'epoch' | 'detector'>('epoch');
   const [logY, setLogY] = useState(false);
+  const [view, setView] = useState<'line' | 'points'>('line');
 
-  const shown = useMemo(() => points.filter((p) => !(hideContam && p.contaminated)), [points, hideContam]);
   const groups = useMemo(() => {
     const m = new Map<number, SpectrumPoint[]>();
-    for (const p of shown) {
+    for (const p of points) {
       const k = colorBy === 'epoch' ? p.epoch : p.detector;
       if (!m.has(k)) m.set(k, []);
       m.get(k)!.push(logY ? { ...p, flux_ujy: Math.max(p.flux_ujy, 0.1) } : p);
     }
+    m.forEach((pts) => pts.sort((a, b) => a.wavelength_um - b.wavelength_um));
     return [...m.entries()].sort((a, b) => a[0] - b[0]);
-  }, [shown, colorBy, logY]);
+  }, [points, colorBy, logY]);
 
   const lc = useMemo(
-    () => (window ? shown.filter((p) => p.wavelength_um >= window.lo && p.wavelength_um <= window.hi) : []),
-    [shown, window]
+    () => (window ? points.filter((p) => p.wavelength_um >= window.lo && p.wavelength_um <= window.hi) : []),
+    [points, window]
   );
   const lcByDet = useMemo(() => {
     const m = new Map<number, SpectrumPoint[]>();
@@ -92,14 +95,19 @@ export const SpectrumPanel: React.FC<Props> = ({ points, epochs, loading, error,
           </div>
           <div className="flex items-center gap-1.5 text-[10px]">
             {loading && <Loader2 className="w-3.5 h-3.5 animate-spin text-nasa-cyan" />}
+            <div className="flex rounded-md border border-space-700 overflow-hidden">
+              {(['line', 'points'] as const).map((v) => (
+                <button key={v} onClick={() => setView(v)}
+                  className={`px-2 py-0.5 text-[11px] capitalize ${view === v ? 'bg-nasa-cyan/15 text-nasa-cyan' : 'bg-space-850 text-slate-300 hover:bg-space-800'}`}>
+                  {v}
+                </button>
+              ))}
+            </div>
             <select className="sel" value={colorBy} onChange={(e) => setColorBy(e.target.value as 'epoch' | 'detector')}>
-              <option value="epoch">colour: epoch</option>
-              <option value="detector">colour: detector</option>
+              <option value="epoch">color: epoch</option>
+              <option value="detector">color: detector</option>
             </select>
             <button className={`chip ${logY ? 'chip-on' : ''}`} onClick={() => setLogY(!logY)}>log</button>
-            <button className={`chip ${hideContam ? 'chip-on' : ''}`} onClick={() => setHideContam(!hideContam)} title="Hide points whose aperture touches ghost/crosstalk/streak/halo flags">
-              clean only
-            </button>
             <button className="icon-btn" onClick={download} title="Download CSV" disabled={!points.length}>
               <Download className="w-3.5 h-3.5" />
             </button>
@@ -130,10 +138,12 @@ export const SpectrumPanel: React.FC<Props> = ({ points, epochs, loading, error,
                 <Tooltip content={<Tip />} cursor={{ strokeDasharray: '3 3' }} />
                 <Legend verticalAlign="top" height={16} wrapperStyle={{ fontSize: 9 }} />
                 {groups.map(([k, pts]) => (
-                  <Scatter key={k} name={colorBy === 'epoch' ? `${epochs[k]?.date ?? `epoch ${k + 1}`}` : `D${k}`} data={pts}
-                    fill={colorBy === 'epoch' ? epochColor(k) : detColor(k)} shape="circle" isAnimationActive={false}
+                  <Scatter key={`${k}-${view}`} name={colorBy === 'epoch' ? `${epochs[k]?.date ?? `epoch ${k + 1}`}` : `D${k}`} data={pts}
+                    fill={colorBy === 'epoch' ? epochColor(k) : detColor(k)} isAnimationActive={false}
+                    shape={view === 'line' ? lineHitArea : 'circle'}
+                    line={view === 'line' ? { strokeWidth: 1.5 } : false} lineType="joint"
                     onClick={(d: any) => d?.payload?.did && onPickExposure(d.payload.did)}>
-                    <ErrorBar dataKey="flux_err_ujy" direction="y" stroke="#64748b" width={0} />
+                    {view === 'points' && <ErrorBar dataKey="flux_err_ujy" direction="y" stroke="#64748b" width={0} />}
                   </Scatter>
                 ))}
               </ScatterChart>
@@ -142,7 +152,7 @@ export const SpectrumPanel: React.FC<Props> = ({ points, epochs, loading, error,
         </div>
         <p className="text-[9px] text-slate-500 leading-snug">
           One point per exposure: zodi-subtracted SPHEREx L2 surface brightness summed in the aperture minus a local
-          annulus median (dashed rings), × pixel solid angle. Not aperture-corrected; neighbouring sources inside the
+          annulus median (dashed rings), × pixel solid angle. Not aperture-corrected; neighboring sources inside the
           aperture are included — check the Gaia/WISE overlays. Click a point to view that exposure.
         </p>
       </div>

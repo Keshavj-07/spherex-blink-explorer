@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-SPHEREx Blink & Spectrum Explorer: Data Pipeline
+SPHEREx Data Explorer: Data Pipeline
 Generates multi-epoch SPHEREx infrared imagery, difference maps, 102-band spectral cubes,
 multi-epoch light curves, and cross-matched Gaia/WISE catalog vector overlays for the
 5 benchmark targets of the 2026 NASA Space Apps Challenge ("Planet X and SPHEREx").
@@ -505,7 +505,7 @@ def main():
     public_data_dir = os.path.join(base_dir, "public", "data")
     os.makedirs(public_data_dir, exist_ok=True)
     
-    print(f"=== SPHEREx Blink & Spectrum Explorer Data Pipeline ===")
+    print(f"=== SPHEREx Data Explorer Data Pipeline ===")
     print(f"Target Directory: {public_data_dir}")
     
     targets_summary = []

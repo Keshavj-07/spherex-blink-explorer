@@ -12,7 +12,7 @@ export const SPHEREX_DETECTORS = [
 
 export const detColor = (d: number) => SPHEREX_DETECTORS.find((x) => x.det === d)?.color ?? '#94a3b8';
 
-// Approximate centres of the 102 notional channels (17 per detector, constant R per detector).
+// Approximate centers of the 102 notional channels (17 per detector, constant R per detector).
 export const SPHEREX_CHANNELS = SPHEREX_DETECTORS.flatMap((d) => {
   const ratio = Math.pow(d.max / d.min, 1 / 17);
   return Array.from({ length: 17 }, (_, i) => {

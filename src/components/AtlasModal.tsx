@@ -13,8 +13,8 @@ interface Props {
 // HiPS sky surveys served from IRSA's mirror (more reliable than resolving IDs through CDS).
 const HIPS = 'https://irsa.ipac.caltech.edu/data/hips/CDS/';
 const SURVEYS = [
-  { id: HIPS + 'AllWISE/RGB-W4-W2-W1', label: 'AllWISE colour (3.4–22 µm)' },
-  { id: HIPS + '2MASS/Color', label: '2MASS colour (1.2–2.2 µm)' },
+  { id: HIPS + 'AllWISE/RGB-W4-W2-W1', label: 'AllWISE color (3.4–22 µm)' },
+  { id: HIPS + '2MASS/Color', label: '2MASS color (1.2–2.2 µm)' },
   { id: HIPS + 'DSS2/color', label: 'DSS2 optical' },
 ];
 
@@ -60,7 +60,7 @@ export const AtlasModal: React.FC<Props> = ({ open, onClose, ra, dec, onPick }) 
   }, [survey]);
 
   if (!open) return null;
-  const centre = () => {
+  const center = () => {
     const c = aladinRef.current?.getRaDec?.();
     if (c) setPicked({ ra: c[0], dec: c[1] });
   };
@@ -77,7 +77,7 @@ export const AtlasModal: React.FC<Props> = ({ open, onClose, ra, dec, onPick }) 
             <button className="icon-btn" onClick={onClose}><X className="w-4 h-4" /></button>
           </div>
         </div>
-        <p className="text-xs text-slate-400">Pan and zoom anywhere (Aladin Lite, CDS Strasbourg). Click a spot — or use the view centre — then load its SPHEREx images.</p>
+        <p className="text-xs text-slate-400">Pan and zoom anywhere (Aladin Lite, CDS Strasbourg). Click a spot — or use the view center — then load its SPHEREx images.</p>
         <div ref={divRef} className="w-full h-[60vh] rounded-lg overflow-hidden bg-black" />
         {err && <p className="text-xs text-red-300">{err}</p>}
         <div className="flex flex-wrap items-center justify-between gap-2">
@@ -85,7 +85,7 @@ export const AtlasModal: React.FC<Props> = ({ open, onClose, ra, dec, onPick }) 
             {picked ? `${degToHMS(picked.ra)} ${degToDMS(picked.dec)}  (${picked.ra.toFixed(5)}, ${picked.dec.toFixed(5)})` : 'No position picked yet'}
           </span>
           <div className="flex gap-2">
-            <button className="btn" onClick={centre}><Crosshair className="w-4 h-4" /> Use view centre</button>
+            <button className="btn" onClick={center}><Crosshair className="w-4 h-4" /> Use view center</button>
             <button className="btn-primary" disabled={!picked} onClick={() => picked && (onPick(picked.ra, picked.dec), onClose())}>
               Load SPHEREx data here
             </button>

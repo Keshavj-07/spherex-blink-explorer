@@ -1,8 +1,8 @@
 {
-  "name": "spherex-blink-explorer",
+  "name": "spherex-data-explorer",
   "version": "2.0.0",
   "private": true,
-  "description": "SPHEREx Blink & Spectrum Explorer - 2026 NASA Space Apps Challenge",
+  "description": "SPHEREx Data Explorer - 2026 NASA Space Apps Challenge",
   "type": "module",
   "scripts": {
     "dev": "vite",

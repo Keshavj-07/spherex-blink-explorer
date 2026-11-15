@@ -1,7 +1,8 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import {
-  Telescope, Search, Globe2, Database, Link2, Play, Pause, Loader2, Info, Layers, AlertTriangle, Check, Sparkles, ShieldAlert,
+  Search, Globe2, Database, Link2, Play, Pause, Loader2, Info, Layers, AlertTriangle, Check, Sparkles, RotateCw,
 } from 'lucide-react';
+import { Logo } from './components/Logo';
 import { api, Frame, FieldMeta, GaiaSource, Release, ResolvedObject, SpectrumPoint, WiseSource } from './lib/api';
 import { degToDMS, degToHMS, mjdToYear, parseAngle, parseCoordinates } from './lib/sky';
 import { absPercentile, meanFrames, percentiles, subtract, subtractMedian } from './lib/render';
@@ -95,6 +96,8 @@ export const App: React.FC = () => {
   const [wise, setWise] = useState<WiseSource[]>([]);
   const irMoversCount = useMemo(() => wise.filter((w) => w.ir_only_mover_candidate).length, [wise]);
   const [catErr, setCatErr] = useState<string | null>(null);
+  // 'loading', 'ready', or the reason the IR-only check can't run
+  const [moverCheck, setMoverCheck] = useState<string>('loading');
   const [aperture, setAperture] = useState<Aperture | null>(null);
   const [spectrum, setSpectrum] = useState<SpectrumPoint[]>([]);
   const [specLoading, setSpecLoading] = useState(false);
@@ -104,6 +107,7 @@ export const App: React.FC = () => {
   const [atlasOpen, setAtlasOpen] = useState(false);
   const [copied, setCopied] = useState(false);
   const [uploadsTick, setUploadsTick] = useState(0);
+  const [retryTick, setRetryTick] = useState(0);
   const pollRef = useRef<number | null>(null);
 
   const goTo = useCallback((t: Target) => {
@@ -214,7 +218,7 @@ export const App: React.FC = () => {
       cancelled = true;
       if (pollRef.current) window.clearTimeout(pollRef.current);
     };
-  }, [target, release, loadFov, strict, uploadsTick]);
+  }, [target, release, loadFov, strict, uploadsTick, retryTick]);
 
   // default aperture = the target (following its proper motion), set once per newly loaded field
   const targetRef = useRef(target);
@@ -236,11 +240,13 @@ export const App: React.FC = () => {
   useEffect(() => {
     if (!field) return;
     setCatErr(null);
+    setMoverCheck('loading');
     const r = Math.min(25, (field.fov_arcmin / 2) * 1.45);
     api.catalog(field.center_ra, field.center_dec, r)
       .then((c) => {
         setGaia(c.gaia);
         setWise(c.catwise);
+        setMoverCheck(c.errors.gaia ? 'Gaia offline' : c.errors.catwise ? 'CatWISE offline' : c.errors.crossmatch ? 'Gaia incomplete' : 'ready');
         const errs = Object.entries(c.errors);
         if (errs.length)
           setCatErr(
@@ -253,7 +259,10 @@ export const App: React.FC = () => {
               .join(' ')
           );
       })
-      .catch((e) => setCatErr(e.message));
+      .catch((e) => {
+        setCatErr(e.message);
+        setMoverCheck('catalogs offline');
+      });
   }, [field]);
 
   // frames for the chosen stack
@@ -306,7 +315,7 @@ export const App: React.FC = () => {
   const cropN = useMemo(() => {
     if (!fullN) return 0;
     let k = Math.ceil((fov * 60) / (field?.pixel_scale_arcsec ?? 6.15));
-    if (k % 2 === 0) k += 1; // odd, like the server grid, so both share the centre pixel
+    if (k % 2 === 0) k += 1; // odd, like the server grid, so both share the center pixel
     return Math.min(fullN, k);
   }, [fov, fullN, field]);
   const off = (fullN - cropN) / 2;
@@ -456,12 +465,10 @@ export const App: React.FC = () => {
       {!EMBED && (
         <header className="bg-space-900/90 border-b border-space-700 px-4 py-2 flex flex-wrap items-center gap-3 z-30">
           <div className="flex items-center gap-2.5 mr-2">
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-nasa-blue to-nasa-red/80 flex items-center justify-center ring-1 ring-nasa-cyan/40">
-              <Telescope className="w-4 h-4 text-nasa-cyan" />
-            </div>
+            <Logo className="w-8 h-8 shrink-0" />
             <div className="leading-tight">
-              <h1 className="text-sm font-bold">SPHEREx Blink Explorer</h1>
-              <p className="text-[10px] text-slate-400">Live NASA SPHEREx images, any position on the sky</p>
+              <h1 className="text-sm font-bold">SPHEREx Data Explorer</h1>
+              <p className="text-[10px] text-slate-400">Live NASA SPHEREx images</p>
             </div>
           </div>
           <form onSubmit={onSearch} className="flex-1 min-w-[260px] max-w-xl flex items-center gap-2">
@@ -521,7 +528,10 @@ export const App: React.FC = () => {
                 {status?.state === 'error' ? (
                   <>
                     <AlertTriangle className="w-6 h-6 text-amber-400" />
-                    <p className="max-w-md">{status.message}</p>
+                    <p className="max-w-md break-words">{status.message}</p>
+                    <button className="btn" onClick={() => setRetryTick((t) => t + 1)}>
+                      <RotateCw className="w-3.5 h-3.5" /> Retry
+                    </button>
                   </>
                 ) : (
                   <>
@@ -581,6 +591,15 @@ export const App: React.FC = () => {
                 </span>
               )}
               <span className="ml-auto flex items-center gap-1.5">
+                <span className="text-slate-400">FOV</span>
+                <select className="sel" value={fov} title={`Loaded ${loadFov}′. Smaller views are instant; larger ones download more data`}
+                  onChange={(e) => {
+                    const f = Number(e.target.value);
+                    setFov(f);
+                    if (f > loadFov) setLoadFov(f);
+                  }}>
+                  {[...new Set([...FOV_OPTIONS, fov])].sort((a, b) => a - b).map((f) => <option key={f} value={f}>{f}′ × {f}′{f <= loadFov ? '' : ' ⤓'}</option>)}
+                </select>
                 <select className="sel" value={colormap} onChange={(e) => setColormap(e.target.value as Colormap)}>
                   {['grayscale', 'viridis', 'inferno', 'coolwarm', 'rainbow'].map((c) => <option key={c}>{c}</option>)}
                 </select>
@@ -613,15 +632,6 @@ export const App: React.FC = () => {
                   {s === 'all' ? 'All 6 detectors (0.75–5 µm)' : s === 'det' ? `Detector D${ch.det}` : `Channel ${channel + 1}/102`}
                 </button>
               ))}
-              <span className="text-slate-400">FOV</span>
-              <select className="sel" value={fov} title={`Loaded ${loadFov}′ — smaller views are instant, larger ones download more data`}
-                onChange={(e) => {
-                  const f = Number(e.target.value);
-                  setFov(f);
-                  if (f > loadFov) setLoadFov(f);
-                }}>
-                {[...new Set([...FOV_OPTIONS, fov])].sort((a, b) => a - b).map((f) => <option key={f} value={f}>{f}′ × {f}′{f <= loadFov ? '' : ' ⤓'}</option>)}
-              </select>
               <label className="flex items-center gap-1 text-slate-400" title="Also mask pixels flagged as ghost, crosstalk, streak, bloom, snowball or halo">
                 <input type="checkbox" checked={strict} onChange={(e) => setStrict(e.target.checked)} /> mask contamination
               </label>
@@ -629,10 +639,14 @@ export const App: React.FC = () => {
               <label className="flex items-center gap-1 text-slate-400"><input type="checkbox" checked={showWise} onChange={(e) => setShowWise(e.target.checked)} /><span className="text-nasa-amber">◇</span> CatWISE2020 <span className="text-slate-600">(W1|W2&lt;17)</span></label>
               <label className={`flex items-center gap-1.5 px-2 py-0.5 rounded border text-xs font-semibold cursor-pointer transition-all ${flagIrOnly ? 'bg-red-500/20 border-red-500/60 text-red-300' : 'border-space-700 text-slate-400 hover:text-slate-200'}`} title="Flag sources with significant CatWISE infrared proper motion and NO Gaia optical match (Planet X / Cold Brown Dwarf signature)">
                 <input type="checkbox" checked={flagIrOnly} onChange={(e) => setFlagIrOnly(e.target.checked)} className="accent-red-500" />
-                <ShieldAlert className="w-3.5 h-3.5 text-red-400" />
                 <span>Flag IR-Only Movers</span>
-                {irMoversCount > 0 && (
-                  <span className="px-1.5 py-0.2 rounded-full bg-red-500 text-white text-[10px] font-mono animate-pulse">{irMoversCount}</span>
+                {field && moverCheck === 'loading' && <Loader2 className="w-3 h-3 animate-spin" />}
+                {field && moverCheck !== 'loading' && moverCheck !== 'ready' && (
+                  <span className="text-[10px] font-normal text-amber-300" title={catErr ?? undefined}>{moverCheck}</span>
+                )}
+                {field && moverCheck === 'ready' && (
+                  <span className={`px-1.5 rounded-full text-[10px] font-mono ${irMoversCount ? 'bg-red-500 text-white animate-pulse' : 'bg-space-800 text-slate-400'}`}
+                    title={irMoversCount ? undefined : 'No infrared-only movers in this field'}>{irMoversCount}</span>
                 )}
               </label>
             </div>
@@ -669,7 +683,7 @@ export const App: React.FC = () => {
                   )}
                   {nowPos && pmTotal !== null && (
                     <div className="col-span-2 text-nasa-purple">
-                      Field centred on its position at the mean SPHEREx epoch: {nowPos.ra.toFixed(5)}°, {nowPos.dec.toFixed(5)}°
+                      Field centered on its position at the mean SPHEREx epoch: {nowPos.ra.toFixed(5)}°, {nowPos.dec.toFixed(5)}°
                       ({(pmTotal / 1000 * (mjdToYear(field!.epochs.reduce((s, e) => s + e.mjd, 0) / field!.epochs.length) - target.posEpoch)).toFixed(0)}″ from ep. {target.posEpoch})
                     </div>
                   )}
