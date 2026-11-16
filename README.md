@@ -25,25 +25,6 @@ by an early prototype script (`scripts/fetch_and_process.py`).
 | Metadata / contamination flags | Exposure table with date, detector, wavelength, coverage and the SPHEREx flag bits at the field center (ghost, crosstalk, streak, halo…). Unusable pixels are always masked. *Mask contamination* also masks the contamination flags. |
 | Easy to update with new data | IRSA is queried live on every load, so new exposures appear automatically. If IRSA is down, the last saved answer for that position is used instead. **Check for new releases** probes IRSA for new SPHEREx collections. By default all all-sky releases are combined (currently DR1 + QR3) with duplicates removed. You can also **upload** SPHEREx Level-2 FITS files, which are merged into any field they overlap. |
 
-## The challenge test objects
-
-Positions and proper motions are resolved live from SIMBAD (CDS Sesame) and propagated to the
-SPHEREx epoch, so fast movers are found where they actually are now, not at their J2000 positions.
-
-| Object | SIMBAD (J2000, ep. 2000) | Proper motion | What SPHEREx shows |
-|---|---|---|---|
-| Barnard's Star | 269.45208, +4.69336 | 10.39″/yr | Clear north-going +/− pair in *B − A*. Saturated core, so no reliable photometry. |
-| ε Indi B (Ba+Bb, T1+T6) | 331.04415, −56.78284 | 4.68″/yr | Full T-dwarf spectrum: Y/J/H/K peaks, CH₄ troughs at 1.65/2.2/3.3 µm, 4 µm peak, CO/CO₂ absorption. |
-| WISE 0855−0714 | 133.81891, −7.24705 | 8.15″/yr | Moves 1.3 px across the data. Flagged as an infrared-only mover. In 2025–26 it lies 6.9″ from a G = 16.3 field star, which dominates the short-wavelength flux in the aperture. |
-| RW Aurigae | 76.95653, +30.40144 | 0.02″/yr | Very bright. The core is masked in most exposures (266 of 333), so only a few partial measurements remain. |
-| R Draconis | 248.16761, +66.75498 | 0.02″/yr | Too bright for SPHEREx (core saturated in all exposures). |
-
-The challenge text gives WISE 0855 as 08h55m10.831s −07°14′42.53″. That is its position around
-2010, so the tool corrects it with the proper motion.
-
-SPHEREx pixels are 6.15″, so even the fastest stars move only about 1–2 px per year. Zoom in and
-use the purple predicted track.
-
 ## Architecture
 
 ```
